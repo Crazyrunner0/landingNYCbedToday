@@ -18,9 +18,12 @@ web/.htaccess
 !.env.example
 !.env.local.example
 
+# Build artifacts
+build/
+dist/
+
 # Composer
 vendor/
-composer.lock
 
 # WP-CLI
 wp-cli.local.yml

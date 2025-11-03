@@ -16,7 +16,7 @@
     <exclude-pattern>*.css</exclude-pattern>
 
     <!-- Rules -->
-    <rule ref="PSR12"/>
+    <rule ref="WordPress"/>
 
     <!-- Show progress and colors -->
     <arg value="ps"/>

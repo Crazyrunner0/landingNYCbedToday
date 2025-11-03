@@ -106,3 +106,6 @@ AUTHORS text eol=lf
 
 # Ignore files (like .npmignore or .gitignore)
 *.*ignore text eol=lf
+
+# Lock files
+*.lock text eol=lf
