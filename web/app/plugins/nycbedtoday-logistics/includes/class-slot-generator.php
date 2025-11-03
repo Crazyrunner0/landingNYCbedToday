@@ -26,18 +26,23 @@ class NYCBEDTODAY_Logistics_Slot_Generator {
             return [];
         }
         
-        $slots = self::generate_slots_for_date($date);
+        $db_slots = NYCBEDTODAY_Logistics_Delivery_Slots::get_slots($date, 'active');
         
-        $slots_with_capacity = [];
-        foreach ($slots as $slot) {
-            $available = self::get_slot_available_capacity($date, $slot['start'], $slot['end']);
+        $slots = [];
+        foreach ($db_slots as $slot) {
+            $available = $slot->capacity - $slot->reserved_count;
             if ($available > 0) {
-                $slot['available'] = $available;
-                $slots_with_capacity[] = $slot;
+                $slots[] = [
+                    'date' => $slot->date,
+                    'start' => substr($slot->start_time, 0, 5),
+                    'end' => substr($slot->end_time, 0, 5),
+                    'label' => self::format_slot_label(substr($slot->start_time, 0, 5), substr($slot->end_time, 0, 5)),
+                    'available' => $available,
+                ];
             }
         }
         
-        return $slots_with_capacity;
+        return $slots;
     }
     
     public static function is_before_cutoff() {
@@ -96,10 +101,9 @@ class NYCBEDTODAY_Logistics_Slot_Generator {
     }
     
     public static function get_slot_available_capacity($date, $start, $end) {
-        $max_capacity = NYCBEDTODAY_Logistics_Settings::get_setting('slot_capacity', 10);
-        $reserved = NYCBEDTODAY_Logistics_Slot_Reservation::count_reservations($date, $start, $end);
-        
-        return max(0, $max_capacity - $reserved);
+        $start_time = $start . ':00';
+        $end_time = $end . ':00';
+        return NYCBEDTODAY_Logistics_Delivery_Slots::get_available_capacity($date, $start_time, $end_time);
     }
     
     public static function get_next_available_date() {
@@ -116,7 +120,7 @@ class NYCBEDTODAY_Logistics_Slot_Generator {
             $date = date('Y-m-d', strtotime($today . ' +' . $i . ' days'));
             
             if (!self::is_blackout_date($date)) {
-                $slots = self::generate_slots_for_date($date);
+                $slots = NYCBEDTODAY_Logistics_Delivery_Slots::get_slots($date, 'active');
                 if (!empty($slots)) {
                     return $date;
                 }
