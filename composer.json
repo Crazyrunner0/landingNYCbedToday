@@ -46,6 +46,8 @@
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.7.1",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+    "wp-coding-standards/wpcs": "^3.0",
     "roave/security-advisories": "dev-latest"
   },
   "config": {
@@ -53,7 +55,8 @@
     "preferred-install": "dist",
     "allow-plugins": {
       "composer/installers": true,
-      "roots/wordpress-core-installer": true
+      "roots/wordpress-core-installer": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
   "minimum-stability": "dev",

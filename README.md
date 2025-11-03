@@ -24,6 +24,57 @@ A modern WordPress development environment using Bedrock, Docker Compose, and PH
 - **WooCommerce with Stripe, Apple Pay, Google Pay**
 - **GA4 and Meta Pixel analytics tracking**
 - **One-page checkout with reduced fields**
+- Code quality tools: PHP CodeSniffer (WordPress Coding Standards), Prettier for formatting
+- Automated CI/CD pipeline with GitHub Actions
+
+## Development & Contributing
+
+This project follows a **linear PR workflow** with automated code quality checks. For detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Local Development Tooling
+
+#### Required Tools
+- PHP 8.0+ (with extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, json, opcache, bcmath)
+- Composer (for PHP dependency management)
+- Node.js 18+ (for formatting and development tools)
+
+#### Setting Up Local Development
+
+1. **Install PHP dependencies**:
+   ```bash
+   composer install
+   ```
+
+2. **Install Node dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Verify your setup** by running the quality checks locally before pushing:
+   ```bash
+   # PHP code standards check
+   composer test
+
+   # Format check (JS, CSS, JSON, Markdown)
+   npm run format:check
+
+   # Auto-fix formatting issues
+   npm run format
+   ```
+
+### Code Standards & Formatting
+
+- **PHP**: [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/) enforced via PHPCS
+- **JavaScript, CSS, JSON, Markdown**: Prettier formatting
+- **EditorConfig**: Use `.editorconfig` for editor-consistent indentation and line endings
+
+### Pre-Push Checklist
+
+Before pushing your changes:
+1. Ensure `composer test` passes
+2. Ensure `npm run format:check` passes
+3. All changes follow project code standards
+4. Branch naming follows the convention (e.g., `feature/`, `fix/`, `chore/`)
 
 ## Prerequisites
 
