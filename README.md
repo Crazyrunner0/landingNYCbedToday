@@ -2,9 +2,12 @@
 
 A modern WordPress development environment using Bedrock, Docker Compose, and PHP-FPM.
 
+> 🛒 **WooCommerce E-Commerce Ready!** This stack includes a complete WooCommerce setup with Stripe payments, one-page checkout, and analytics tracking. See [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for e-commerce documentation.
+
 ## Stack
 
 - **WordPress**: Bedrock-based setup with Composer dependency management
+- **WooCommerce**: E-commerce platform with Stripe payment gateway
 - **Web Server**: Nginx (Alpine)
 - **PHP**: PHP 8.2-FPM (Alpine)
 - **Database**: MariaDB (Latest)
@@ -18,6 +21,9 @@ A modern WordPress development environment using Bedrock, Docker Compose, and PH
 - Docker containerization (nginx, php-fpm, MariaDB, Redis)
 - Makefile for common development tasks
 - Security best practices built-in
+- **WooCommerce with Stripe, Apple Pay, Google Pay**
+- **GA4 and Meta Pixel analytics tracking**
+- **One-page checkout with reduced fields**
 
 ## Prerequisites
 
@@ -59,6 +65,27 @@ A modern WordPress development environment using Bedrock, Docker Compose, and PH
    Open your browser and navigate to http://localhost:8080
    
    Complete the WordPress installation wizard to create your admin account.
+
+6. **WooCommerce Setup** (Optional):
+   
+   For e-commerce functionality, see [QUICKSTART_WOOCOMMERCE.md](QUICKSTART_WOOCOMMERCE.md) for quick setup or [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for full documentation.
+
+## WooCommerce E-Commerce
+
+This stack includes a complete WooCommerce setup. Features:
+
+- ✅ **Stripe Payments** (test mode with Apple Pay/Google Pay)
+- ✅ **One-Page Checkout** with reduced fields
+- ✅ **Auto-Seeded Products** (4 mattresses + 3 add-ons)
+- ✅ **Analytics Tracking** (GA4 + Meta Pixel)
+- ✅ **Sticky Mobile CTA**
+
+**Quick Start:** See [QUICKSTART_WOOCOMMERCE.md](QUICKSTART_WOOCOMMERCE.md)
+
+**Documentation:**
+- [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) - Complete e-commerce guide
+- [WOOCOMMERCE_SETUP.md](WOOCOMMERCE_SETUP.md) - Detailed setup instructions
+- [TESTING_CHECKLIST.md](TESTING_CHECKLIST.md) - Testing procedures
 
 ## Makefile Commands
 
