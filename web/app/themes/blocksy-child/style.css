@@ -1,0 +1,14 @@
+/*
+Theme Name: Blocksy Child
+Theme URI: https://creativethemes.com/blocksy/
+Description: High-performance Blocksy child theme with optimized asset loading, critical CSS pipeline, and theme.json configuration
+Author: Your Name
+Author URI: https://example.com
+Template: blocksy
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: blocksy-child
+*/
+
+/* Minimal styles - most styling handled via theme.json and critical CSS */
