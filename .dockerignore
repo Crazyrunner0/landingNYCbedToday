@@ -1,0 +1,45 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github
+
+# Documentation
+README.md
+CONTRIBUTING.md
+LICENSE
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Composer
+vendor/*/tests
+vendor/*/test
+vendor/*/*/tests
+vendor/*/*/test
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Docker
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# Uploads (for production builds)
+web/app/uploads/*
