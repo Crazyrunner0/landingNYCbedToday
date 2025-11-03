@@ -23,6 +23,7 @@ web/.htaccess
 # Build artifacts
 build/
 dist/
+web/app/themes/blocksy-child/build/
 
 # Composer
 vendor/

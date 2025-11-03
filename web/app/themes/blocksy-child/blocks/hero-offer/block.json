@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.4/block.json",
+	"apiVersion": 3,
+	"name": "blocksy-child/hero-offer",
+	"title": "Hero Offer",
+	"category": "blocksy-landing",
+	"icon": "megaphone",
+	"description": "Hero section with offer headline and CTA",
+	"keywords": ["hero", "offer", "landing"],
+	"textdomain": "blocksy-child",
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css",
+	"editorStyle": "file:./editor.css",
+	"attributes": {
+		"headline": {
+			"type": "string",
+			"default": "Get Your Perfect Mattress Today"
+		},
+		"subheadline": {
+			"type": "string",
+			"default": "Premium comfort starts here"
+		},
+		"description": {
+			"type": "string",
+			"default": "Find the mattress that's right for you with our expert selection and fast delivery."
+		},
+		"buttonText": {
+			"type": "string",
+			"default": "Shop Now"
+		},
+		"buttonUrl": {
+			"type": "string",
+			"default": "#shop"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#2563eb"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#ffffff"
+		}
+	},
+	"example": {
+		"attributes": {
+			"headline": "Get Your Perfect Mattress Today",
+			"subheadline": "Premium comfort starts here"
+		}
+	}
+}

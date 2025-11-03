@@ -115,6 +115,11 @@ function blocksy_child_excerpt_length($length) {
 }
 add_filter('excerpt_length', 'blocksy_child_excerpt_length');
 
+/**
+ * Register Gutenberg blocks (Task 16: Gutenberg Block Skeleton)
+ */
+require_once BLOCKSY_CHILD_DIR . '/inc/register-blocks.php';
+
 /*
  * ============================================================================
  * PERFORMANCE OPTIMIZATION MODULES - DISABLED FOR SKELETON SETUP

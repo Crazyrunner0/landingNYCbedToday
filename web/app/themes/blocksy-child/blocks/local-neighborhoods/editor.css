@@ -1,0 +1,18 @@
+.wp-block-blocksy-child-local-neighborhoods {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+}
+
+.neighborhoods-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.neighborhood-item {
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+}

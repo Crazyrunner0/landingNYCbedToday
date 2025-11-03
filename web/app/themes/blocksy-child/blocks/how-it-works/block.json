@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.4/block.json",
+	"apiVersion": 3,
+	"name": "blocksy-child/how-it-works",
+	"title": "How It Works",
+	"category": "blocksy-landing",
+	"icon": "list-view",
+	"description": "Step-by-step process guide",
+	"keywords": ["process", "steps", "guide", "workflow"],
+	"textdomain": "blocksy-child",
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css",
+	"editorStyle": "file:./editor.css",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "How It Works"
+		},
+		"steps": {
+			"type": "array",
+			"default": [
+				{
+					"id": 1,
+					"number": "1",
+					"title": "Browse Selection",
+					"description": "Explore our wide variety of premium mattresses"
+				},
+				{
+					"id": 2,
+					"number": "2",
+					"title": "Select Size & Type",
+					"description": "Choose the perfect mattress for your needs"
+				},
+				{
+					"id": 3,
+					"number": "3",
+					"title": "Quick Checkout",
+					"description": "Fast and secure payment process"
+				},
+				{
+					"id": 4,
+					"number": "4",
+					"title": "Fast Delivery",
+					"description": "Get your mattress delivered to your door"
+				}
+			]
+		}
+	},
+	"example": {
+		"attributes": {
+			"title": "How It Works"
+		}
+	}
+}

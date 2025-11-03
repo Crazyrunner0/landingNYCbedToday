@@ -1,0 +1,50 @@
+.wp-block-blocksy-child-social-proof-strip {
+  width: 100%;
+  background-color: #f8fafc;
+  padding: 2rem 0;
+  margin: 2rem 0;
+}
+
+.social-proof-strip {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.social-proof-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-proof-item {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  padding: 1rem;
+}
+
+.social-proof-text {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .social-proof-items {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .social-proof-item {
+    min-width: 100%;
+  }
+
+  .social-proof-strip {
+    padding: 0 1rem;
+  }
+}

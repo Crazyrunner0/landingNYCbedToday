@@ -1,0 +1,78 @@
+.wp-block-blocksy-child-final-cta {
+  width: 100%;
+  margin: 3rem 0 0 0;
+}
+
+.final-cta-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.final-cta-headline {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+.final-cta-description {
+  font-size: 1.125rem;
+  margin: 0 0 2rem 0;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.final-cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.final-cta-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: 2px solid currentColor;
+}
+
+.final-cta-button.primary {
+  background-color: #f59e0b;
+  color: #0f172a;
+}
+
+.final-cta-button.primary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.final-cta-button.secondary {
+  background-color: transparent;
+  color: inherit;
+}
+
+.final-cta-button.secondary:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .final-cta-headline {
+    font-size: 1.875rem;
+  }
+
+  .final-cta-description {
+    font-size: 1rem;
+  }
+
+  .final-cta-buttons {
+    flex-direction: column;
+  }
+
+  .final-cta-button {
+    width: 100%;
+  }
+}
