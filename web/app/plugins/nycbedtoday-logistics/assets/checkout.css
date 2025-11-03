@@ -1,0 +1,94 @@
+.nycbt-delivery-slot-selector {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.nycbt-delivery-slot-selector h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.nycbt-slot-loading {
+    text-align: center;
+    padding: 20px;
+}
+
+.nycbt-slot-error {
+    padding: 12px;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.nycbt-slots-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.nycbt-slot {
+    padding: 15px;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.nycbt-slot:hover {
+    border-color: #0073aa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nycbt-slot.selected {
+    border-color: #0073aa;
+    background: #e5f5ff;
+}
+
+.nycbt-slot.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.nycbt-slot-time {
+    display: block;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.nycbt-slot-capacity {
+    display: block;
+    font-size: 13px;
+    color: #666;
+}
+
+.nycbt-delivery-info {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f0f9ff;
+    border: 2px solid #0073aa;
+    border-radius: 4px;
+}
+
+.nycbt-delivery-info h2 {
+    margin-top: 0;
+    color: #0073aa;
+}
+
+.nycbt-delivery-slot {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.woocommerce-invalid .nycbt-delivery-slot-selector {
+    border-color: #e2401c;
+}
