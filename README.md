@@ -84,42 +84,78 @@ Before pushing your changes:
 
 ## Quick Start
 
+### Fastest Setup with Bootstrap (Recommended)
+
+The simplest way to get started is with a single command that handles everything:
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd <repository-name>
+
+# Bootstrap everything in one go
+make bootstrap
+```
+
+This will:
+1. Create `.env` from `.env.example`
+2. Install all PHP dependencies via Composer
+3. Start all Docker services (nginx, php-fpm, MariaDB, Redis)
+4. Run health checks to verify everything works
+5. Display next steps
+
+Then simply:
+1. Open http://localhost:8080 in your browser
+2. Complete the WordPress installation wizard
+3. Create your admin account
+
+**For detailed bootstrap information, see [BOOTSTRAP_GUIDE.md](BOOTSTRAP_GUIDE.md).**
+
+### Manual Step-by-Step Setup
+
+If you prefer more control, follow these steps:
+
 1. **Clone the repository**:
-   ```bash
-   git clone <repository-url>
-   cd <repository-name>
-   ```
+    ```bash
+    git clone <repository-url>
+    cd <repository-name>
+    ```
 
 2. **Install dependencies and setup environment**:
-   ```bash
-   make install
-   ```
-   
-   This will:
-   - Create `.env` from `.env.example`
-   - Install Composer dependencies
-   - Download WordPress core
+    ```bash
+    make install
+    ```
 
-3. **Generate security salts**:
-   
-   You can either:
-   - Run the automated script: `./scripts/generate-salts.sh`
-   - Or manually visit https://roots.io/salts.html and update the security keys in your `.env` file
+    This will:
+    - Create `.env` from `.env.example`
+    - Install Composer dependencies
+    - Download WordPress core
+
+3. **Generate security salts** (optional but recommended):
+
+    You can either:
+    - Run the automated script: `./scripts/generate-salts.sh`
+    - Or manually visit https://roots.io/salts.html and update the security keys in your `.env` file
 
 4. **Start the services**:
-   ```bash
-   make up
-   ```
+    ```bash
+    make up
+    ```
 
-5. **Access WordPress**:
-   
-   Open your browser and navigate to http://localhost:8080
-   
-   Complete the WordPress installation wizard to create your admin account.
+5. **Verify setup with health check**:
+    ```bash
+    make healthcheck
+    ```
 
-6. **WooCommerce Setup** (Optional):
-   
-   For e-commerce functionality, see [QUICKSTART_WOOCOMMERCE.md](QUICKSTART_WOOCOMMERCE.md) for quick setup or [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for full documentation.
+6. **Access WordPress**:
+
+    Open your browser and navigate to http://localhost:8080
+
+    Complete the WordPress installation wizard to create your admin account.
+
+7. **WooCommerce Setup** (Optional):
+
+    For e-commerce functionality, see [QUICKSTART_WOOCOMMERCE.md](QUICKSTART_WOOCOMMERCE.md) for quick setup or [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for full documentation.
 
 ## WooCommerce E-Commerce
 
@@ -143,17 +179,34 @@ This stack includes a complete WooCommerce setup. Features:
 The project includes a Makefile with several useful commands:
 
 ```bash
-make install    # Install dependencies and setup environment
-make build      # Build Docker images
-make up         # Start all services
-make down       # Stop all services
-make restart    # Restart all services
-make logs       # Show container logs
-make shell      # Open shell in PHP container
-make composer   # Run composer commands (e.g., make composer CMD='update')
-make wp         # Run WP-CLI commands (e.g., make wp CMD='plugin list')
-make clean      # Clean up containers, volumes, and vendor directory
+make bootstrap   # Complete setup: install deps, start services, verify with health check
+make install     # Install dependencies and setup environment
+make build       # Build Docker images
+make up          # Start all services
+make down        # Stop all services
+make restart     # Restart all services
+make logs        # Show container logs
+make shell       # Open shell in PHP container
+make composer    # Run composer commands (e.g., make composer CMD='update')
+make wp          # Run WP-CLI commands (e.g., make wp CMD='plugin list')
+make healthcheck # Run WordPress stack health check
+make clean       # Clean up containers, volumes, and vendor directory
 ```
+
+### Bootstrap Command
+
+The `make bootstrap` command is the fastest way to set up everything:
+
+```bash
+make bootstrap
+```
+
+This single command performs:
+1. Installs all PHP dependencies via Composer
+2. Starts all Docker services (nginx, php-fpm, MariaDB, Redis)
+3. Waits for services to stabilize
+4. Runs comprehensive health checks
+5. Displays completion status and next steps
 
 ## Manual Setup (without Make)
 
@@ -245,6 +298,12 @@ make composer CMD='require wpackagist-theme/theme-name'
 You can use WP-CLI for various WordPress operations:
 
 ```bash
+# Check WordPress version
+make wp CMD='core version'
+
+# Check if WordPress is installed
+make wp CMD='core is-installed'
+
 # List plugins
 make wp CMD='plugin list'
 
@@ -257,6 +316,27 @@ make wp CMD='core update'
 # Create a new user
 make wp CMD='user create username email@example.com --role=administrator'
 ```
+
+### Health Checks
+
+To verify that your WordPress stack is running correctly, use the health check script:
+
+```bash
+# Run health check
+make healthcheck
+
+# Or with verbose output for detailed diagnostics
+./scripts/healthcheck.sh --verbose
+```
+
+The health check verifies:
+- ✓ All Docker containers are running
+- ✓ WordPress core files are installed  
+- ✓ Configuration files exist
+- ✓ Database connectivity works
+- ✓ WordPress is installed and accessible
+- ✓ HTTP endpoint is reachable
+- ✓ Redis cache is available
 
 ### Debugging
 
