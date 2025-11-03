@@ -6,13 +6,19 @@ A comprehensive WordPress plugin for managing same-day delivery logistics with Z
 
 - **ZIP Code Whitelist Management**: Admin interface to manage eligible NYC delivery ZIP codes
 - **2-Hour Time Slot Generator**: Configurable delivery time slots with capacity management
+- **Delivery Slots Database Storage**: Persistent slot storage with date, time, capacity, and reservation tracking
+- **Slot Generation & Management**: Admin UI and CLI commands to generate, view, edit, and delete delivery slots
+- **Configurable Slot Parameters**: Set slot duration, global capacity, delivery hours, and cutoff times
 - **Blackout Dates**: Configure dates when delivery is not available
-- **Order Cut-off Time**: Configurable cut-off time for same-day delivery
+- **Order Cut-off Time**: Configurable cut-off time for same-day delivery (slots unavailable after cutoff)
+- **Per-Slot Capacity Management**: Adjust individual slot capacity and track reservations in real-time
 - **Public REST API**: Endpoints for ZIP validation and slot availability
 - **Shortcodes & Blocks**: Easy content integration for ZIP checking and slot display
 - **WooCommerce Integration**: Seamless checkout integration with slot selection and reservation
 - **Order Meta Storage**: Delivery slot information stored in order meta and displayed in emails
 - **Admin Dashboard**: View and manage all slot reservations
+- **CLI Commands**: Generate, list, update, and manage slots from command line
+- **Automatic Scheduling**: Daily cron job maintains rolling 30-day slot availability
 - **Unit Tests**: Comprehensive test coverage for core functionality
 
 ## Installation
@@ -54,6 +60,25 @@ Navigate to the **ZIP Codes** tab to:
 - Remove ZIP codes from the whitelist
 
 The plugin seeds 100+ default NYC ZIP codes covering Manhattan, Brooklyn, Queens, Bronx, and Staten Island.
+
+### Delivery Slots Management
+
+Navigate to the **Delivery Slots** tab to:
+
+#### Generate Slots
+
+- **Start Date** - Choose when to begin slot generation
+- **End Date** - Choose when to end slot generation (default: 30 days ahead)
+- **Force Regenerate** - Overwrite existing slots in the date range
+- Slots are generated automatically for each day, respecting blackout dates and configured hours
+
+#### View and Manage Slots
+
+- View all upcoming delivery slots
+- See slot date, time, capacity, and reservation count
+- **Edit Capacity** - Adjust the maximum deliveries for individual slots
+- **Delete Slots** - Remove slots for specific dates
+- Real-time availability calculation (capacity - reserved count)
 
 ### Reservations Dashboard
 
@@ -113,6 +138,40 @@ The plugin automatically integrates with WooCommerce checkout:
    - Order confirmation page
    - Order emails (customer and admin)
    - Admin order details page
+
+## WP-CLI Commands
+
+Manage delivery slots directly from the command line:
+
+### Generate Slots
+
+```bash
+wp nycbt logistics generate-slots
+wp nycbt logistics generate-slots --start-date=2024-12-15 --end-date=2024-12-31
+wp nycbt logistics generate-slots --force
+```
+
+### List Slots
+
+```bash
+wp nycbt logistics list-slots
+wp nycbt logistics list-slots --date=2024-12-20 --status=active
+```
+
+### Update Slot
+
+```bash
+wp nycbt logistics update-slot 5 --capacity=15
+wp nycbt logistics update-slot 8 --status=inactive
+```
+
+### Delete Slots for Date
+
+```bash
+wp nycbt logistics delete-slots 2024-12-25
+```
+
+See [DELIVERY_SLOTS.md](DELIVERY_SLOTS.md) for complete CLI documentation.
 
 ## REST API
 
@@ -187,6 +246,25 @@ The plugin automatically integrates with WooCommerce checkout:
 ```
 
 ## Database Schema
+
+### Table: `wp_nycbt_delivery_slots`
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | bigint(20) | Primary key |
+| date | date | Delivery date |
+| start_time | time | Slot start time (HH:MM:SS) |
+| end_time | time | Slot end time (HH:MM:SS) |
+| capacity | int(11) | Maximum deliveries for this slot |
+| reserved_count | int(11) | Current number of reservations |
+| status | varchar(20) | Slot status (active, inactive) |
+| created_at | datetime | Slot creation time |
+| updated_at | datetime | Last update time |
+
+Indexes:
+- `date` - For fast date-based queries
+- `status` - For filtering active slots
+- `UNIQUE (date, start_time, end_time)` - Prevents duplicate slots
 
 ### Table: `wp_nycbt_slot_reservations`
 

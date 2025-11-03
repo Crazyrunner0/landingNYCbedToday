@@ -59,7 +59,15 @@ class NYCBEDTODAY_Logistics_Slot_Reservation {
             ['%d', '%s', '%s', '%s', '%s', '%s']
         );
         
-        return $result !== false ? $wpdb->insert_id : false;
+        if ($result !== false) {
+            $reservation_id = $wpdb->insert_id;
+            $start_time = $start . ':00';
+            $end_time = $end . ':00';
+            NYCBEDTODAY_Logistics_Delivery_Slots::increment_reserved_count($date, $start_time, $end_time);
+            return $reservation_id;
+        }
+        
+        return false;
     }
     
     public static function update_reservation_order($reservation_id, $order_id) {
@@ -109,13 +117,26 @@ class NYCBEDTODAY_Logistics_Slot_Reservation {
         
         $table_name = $wpdb->prefix . self::$table_name;
         
-        return $wpdb->update(
+        $reservation = self::get_reservation($reservation_id);
+        if (!$reservation) {
+            return false;
+        }
+        
+        $result = $wpdb->update(
             $table_name,
             ['status' => 'cancelled'],
             ['id' => $reservation_id],
             ['%s'],
             ['%d']
         );
+        
+        if ($result !== false) {
+            $start_time = $reservation->slot_start . ':00';
+            $end_time = $reservation->slot_end . ':00';
+            NYCBEDTODAY_Logistics_Delivery_Slots::decrement_reserved_count($reservation->delivery_date, $start_time, $end_time);
+        }
+        
+        return $result;
     }
     
     public static function confirm_reservation($reservation_id) {

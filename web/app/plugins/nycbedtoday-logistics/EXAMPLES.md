@@ -1,5 +1,156 @@
 # Usage Examples
 
+## Delivery Slots - CLI Examples
+
+### Generate Delivery Slots
+
+Generate slots for the next 30 days from today:
+
+```bash
+wp nycbt logistics generate-slots
+```
+
+Generate slots for a specific date range:
+
+```bash
+wp nycbt logistics generate-slots --start-date=2024-12-15 --end-date=2025-01-15
+```
+
+Force regenerate slots (overwrite existing ones):
+
+```bash
+wp nycbt logistics generate-slots --force
+```
+
+### List Delivery Slots
+
+List all active delivery slots:
+
+```bash
+wp nycbt logistics list-slots
+```
+
+List slots for a specific date:
+
+```bash
+wp nycbt logistics list-slots --date=2024-12-20
+```
+
+List inactive slots:
+
+```bash
+wp nycbt logistics list-slots --status=inactive
+```
+
+### Update Slot Capacity
+
+Increase capacity for a specific slot:
+
+```bash
+wp nycbt logistics update-slot 5 --capacity=15
+```
+
+Mark a slot as inactive:
+
+```bash
+wp nycbt logistics update-slot 8 --status=inactive
+```
+
+### Delete Slots for a Date
+
+Delete all slots for a specific date:
+
+```bash
+wp nycbt logistics delete-slots 2024-12-25
+```
+
+## Delivery Slots - Programmatic Examples
+
+### Generate Slots in PHP
+
+```php
+// Generate 30 days of slots starting today
+$count = NYCBEDTODAY_Logistics_Delivery_Slots::generate_slots(
+    current_time('Y-m-d'),
+    date('Y-m-d', strtotime('+30 days'))
+);
+echo "Generated $count slots";
+```
+
+### Get Slots for a Date
+
+```php
+// Get all active slots for a date
+$slots = NYCBEDTODAY_Logistics_Delivery_Slots::get_slots('2024-12-20', 'active');
+
+foreach ($slots as $slot) {
+    echo $slot->date;
+    echo ' ' . $slot->start_time . ' - ' . $slot->end_time;
+    echo ' (Capacity: ' . $slot->capacity . ', Reserved: ' . $slot->reserved_count . ')';
+}
+```
+
+### Check Slot Availability
+
+```php
+// Check how many spots are available in a slot
+$available = NYCBEDTODAY_Logistics_Delivery_Slots::get_available_capacity(
+    '2024-12-20',
+    '14:00:00',
+    '16:00:00'
+);
+
+if ($available > 0) {
+    echo "$available spots available";
+} else {
+    echo "This slot is full";
+}
+```
+
+### Update Slot Capacity
+
+```php
+// Increase capacity for a slot
+NYCBEDTODAY_Logistics_Delivery_Slots::update_slot(5, [
+    'capacity' => 20,
+    'status' => 'active'
+]);
+```
+
+### Delete a Slot
+
+```php
+// Delete a specific slot
+NYCBEDTODAY_Logistics_Delivery_Slots::delete_slot(5);
+
+// Delete all slots for a date
+NYCBEDTODAY_Logistics_Delivery_Slots::delete_slots_for_date('2024-12-25');
+```
+
+### Make a Reservation
+
+```php
+// Reserve a slot (automatically increments reserved_count)
+$reservation_id = NYCBEDTODAY_Logistics_Slot_Reservation::reserve_slot(
+    '2024-12-20',
+    '14:00',
+    '16:00',
+    '10001',
+    $order_id
+);
+
+if ($reservation_id) {
+    echo "Slot reserved: $reservation_id";
+}
+```
+
+### Cancel a Reservation
+
+```php
+// Cancel a reservation (automatically decrements reserved_count)
+NYCBEDTODAY_Logistics_Slot_Reservation::cancel_reservation($reservation_id);
+```
+
 ## Shortcode Examples
 
 ### Basic ZIP Code Checker

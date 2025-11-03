@@ -189,6 +189,10 @@ class NYCBEDTODAY_Logistics_Settings {
                    class="nav-tab <?php echo $active_tab === 'zip-codes' ? 'nav-tab-active' : ''; ?>">
                     <?php _e('ZIP Codes', 'nycbedtoday-logistics'); ?>
                 </a>
+                <a href="?page=nycbedtoday-logistics&tab=slots" 
+                   class="nav-tab <?php echo $active_tab === 'slots' ? 'nav-tab-active' : ''; ?>">
+                    <?php _e('Delivery Slots', 'nycbedtoday-logistics'); ?>
+                </a>
                 <a href="?page=nycbedtoday-logistics&tab=reservations" 
                    class="nav-tab <?php echo $active_tab === 'reservations' ? 'nav-tab-active' : ''; ?>">
                     <?php _e('Reservations', 'nycbedtoday-logistics'); ?>
@@ -205,6 +209,8 @@ class NYCBEDTODAY_Logistics_Settings {
                 </form>
             <?php elseif ($active_tab === 'zip-codes'): ?>
                 <?php self::render_zip_codes_tab(); ?>
+            <?php elseif ($active_tab === 'slots'): ?>
+                <?php self::render_slots_tab(); ?>
             <?php elseif ($active_tab === 'reservations'): ?>
                 <?php self::render_reservations_tab(); ?>
             <?php endif; ?>
@@ -218,6 +224,130 @@ class NYCBEDTODAY_Logistics_Settings {
             <h2><?php _e('NYC ZIP Code Whitelist', 'nycbedtoday-logistics'); ?></h2>
             <p><?php _e('Manage the list of ZIP codes eligible for same-day delivery.', 'nycbedtoday-logistics'); ?></p>
             <div id="nycbt-zip-list"></div>
+        </div>
+        <?php
+    }
+    
+    public static function render_slots_tab() {
+        global $wpdb;
+        
+        if (isset($_POST['nycbt_action']) && current_user_can('manage_options')) {
+            check_admin_referer('nycbt_slots_nonce');
+            
+            if ($_POST['nycbt_action'] === 'generate_slots') {
+                $start_date = isset($_POST['start_date']) ? sanitize_text_field($_POST['start_date']) : current_time('Y-m-d');
+                $end_date = isset($_POST['end_date']) ? sanitize_text_field($_POST['end_date']) : date('Y-m-d', strtotime('+30 days'));
+                $force = isset($_POST['force_regenerate']) ? true : false;
+                
+                $count = NYCBEDTODAY_Logistics_Delivery_Slots::generate_slots($start_date, $end_date, $force);
+                echo '<div class="notice notice-success is-dismissible"><p>' . sprintf(__('Generated %d delivery slots.', 'nycbedtoday-logistics'), $count) . '</p></div>';
+            } elseif ($_POST['nycbt_action'] === 'update_slot') {
+                $slot_id = isset($_POST['slot_id']) ? intval($_POST['slot_id']) : 0;
+                $capacity = isset($_POST['capacity']) ? intval($_POST['capacity']) : 0;
+                
+                if ($slot_id > 0 && $capacity > 0) {
+                    NYCBEDTODAY_Logistics_Delivery_Slots::update_slot($slot_id, ['capacity' => $capacity]);
+                    echo '<div class="notice notice-success is-dismissible"><p>' . __('Slot updated successfully.', 'nycbedtoday-logistics') . '</p></div>';
+                } else {
+                    echo '<div class="notice notice-error is-dismissible"><p>' . __('Invalid slot data.', 'nycbedtoday-logistics') . '</p></div>';
+                }
+            } elseif ($_POST['nycbt_action'] === 'delete_slot') {
+                $slot_id = isset($_POST['slot_id']) ? intval($_POST['slot_id']) : 0;
+                
+                if ($slot_id > 0) {
+                    NYCBEDTODAY_Logistics_Delivery_Slots::delete_slot($slot_id);
+                    echo '<div class="notice notice-success is-dismissible"><p>' . __('Slot deleted successfully.', 'nycbedtoday-logistics') . '</p></div>';
+                }
+            }
+        }
+        
+        $table_name = $wpdb->prefix . 'nycbt_delivery_slots';
+        $current_date = current_time('Y-m-d');
+        
+        $slots = $wpdb->get_results(
+            "SELECT * FROM {$table_name} 
+             WHERE date >= %s
+             ORDER BY date ASC, start_time ASC 
+             LIMIT 100",
+            [$current_date]
+        );
+        ?>
+        <div class="nycbt-slots-manager">
+            <h2><?php _e('Delivery Slots Management', 'nycbedtoday-logistics'); ?></h2>
+            
+            <div class="nycbt-slots-controls">
+                <h3><?php _e('Generate Slots', 'nycbedtoday-logistics'); ?></h3>
+                <form method="post">
+                    <?php wp_nonce_field('nycbt_slots_nonce'); ?>
+                    <input type="hidden" name="nycbt_action" value="generate_slots">
+                    
+                    <label for="start_date"><?php _e('Start Date:', 'nycbedtoday-logistics'); ?></label>
+                    <input type="date" name="start_date" id="start_date" value="<?php echo esc_attr(current_time('Y-m-d')); ?>">
+                    
+                    <label for="end_date"><?php _e('End Date:', 'nycbedtoday-logistics'); ?></label>
+                    <input type="date" name="end_date" id="end_date" value="<?php echo esc_attr(date('Y-m-d', strtotime('+30 days'))); ?>">
+                    
+                    <label>
+                        <input type="checkbox" name="force_regenerate" value="1">
+                        <?php _e('Force regenerate (overwrites existing slots)', 'nycbedtoday-logistics'); ?>
+                    </label>
+                    
+                    <?php submit_button(__('Generate Slots', 'nycbedtoday-logistics'), 'primary', 'submit', false); ?>
+                </form>
+            </div>
+            
+            <hr style="margin: 30px 0;">
+            
+            <h3><?php _e('Delivery Slots List', 'nycbedtoday-logistics'); ?></h3>
+            <table class="wp-list-table widefat fixed striped">
+                <thead>
+                    <tr>
+                        <th><?php _e('Date', 'nycbedtoday-logistics'); ?></th>
+                        <th><?php _e('Start Time', 'nycbedtoday-logistics'); ?></th>
+                        <th><?php _e('End Time', 'nycbedtoday-logistics'); ?></th>
+                        <th><?php _e('Capacity', 'nycbedtoday-logistics'); ?></th>
+                        <th><?php _e('Reserved', 'nycbedtoday-logistics'); ?></th>
+                        <th><?php _e('Available', 'nycbedtoday-logistics'); ?></th>
+                        <th><?php _e('Status', 'nycbedtoday-logistics'); ?></th>
+                        <th><?php _e('Actions', 'nycbedtoday-logistics'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($slots)): ?>
+                        <?php foreach ($slots as $slot): ?>
+                            <tr>
+                                <td><?php echo esc_html(date('M j, Y', strtotime($slot->date))); ?></td>
+                                <td><?php echo esc_html(substr($slot->start_time, 0, 5)); ?></td>
+                                <td><?php echo esc_html(substr($slot->end_time, 0, 5)); ?></td>
+                                <td>
+                                    <form method="post" style="display: inline;">
+                                        <?php wp_nonce_field('nycbt_slots_nonce'); ?>
+                                        <input type="hidden" name="nycbt_action" value="update_slot">
+                                        <input type="hidden" name="slot_id" value="<?php echo esc_attr($slot->id); ?>">
+                                        <input type="number" name="capacity" value="<?php echo esc_attr($slot->capacity); ?>" min="1" max="100" style="width: 70px;">
+                                        <button type="submit" class="button button-small"><?php _e('Update', 'nycbedtoday-logistics'); ?></button>
+                                    </form>
+                                </td>
+                                <td><?php echo esc_html($slot->reserved_count); ?></td>
+                                <td><?php echo esc_html($slot->capacity - $slot->reserved_count); ?></td>
+                                <td><?php echo esc_html(ucfirst($slot->status)); ?></td>
+                                <td>
+                                    <form method="post" style="display: inline;" onsubmit="return confirm('<?php _e('Are you sure?', 'nycbedtoday-logistics'); ?>');">
+                                        <?php wp_nonce_field('nycbt_slots_nonce'); ?>
+                                        <input type="hidden" name="nycbt_action" value="delete_slot">
+                                        <input type="hidden" name="slot_id" value="<?php echo esc_attr($slot->id); ?>">
+                                        <button type="submit" class="button button-small button-danger"><?php _e('Delete', 'nycbedtoday-logistics'); ?></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="8"><?php _e('No delivery slots found.', 'nycbedtoday-logistics'); ?></td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
         <?php
     }
