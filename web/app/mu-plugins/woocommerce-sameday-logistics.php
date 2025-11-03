@@ -34,6 +34,7 @@ class WooCommerce_Sameday_Logistics {
         add_action('admin_menu', [$this, 'register_admin_menu']);
         add_action('woocommerce_checkout_update_order_review', [$this, 'handle_order_review_update']);
         add_action('woocommerce_thankyou', [$this, 'clear_session_data'], 20);
+        add_action('woocommerce_order_status_changed', [$this, 'handle_order_status_change'], 10, 4);
     }
 
     public function init() {
@@ -430,6 +431,46 @@ class WooCommerce_Sameday_Logistics {
         $this->clear_session_slot();
         WC()->session->__unset(self::SESSION_TOKEN_KEY);
         WC()->session->__unset(self::SESSION_ZIP_KEY);
+    }
+
+    public function handle_order_status_change($order_id, $old_status, $new_status, $order) {
+        if (!$order || !$order_id) {
+            return;
+        }
+
+        $slot_value = $order->get_meta('_sameday_delivery_slot_key');
+
+        if (!$slot_value) {
+            return;
+        }
+
+        // Release hold if order is cancelled, refunded, or failed
+        if (in_array($new_status, ['cancelled', 'refunded', 'failed'], true)) {
+            $this->release_hold_for_order($slot_value, $order_id);
+        }
+    }
+
+    private function release_hold_for_order($slot_value, $order_id) {
+        if (!$slot_value) {
+            return;
+        }
+
+        $holds = $this->get_all_holds();
+
+        if (!isset($holds[$slot_value]) || !is_array($holds[$slot_value])) {
+            return;
+        }
+
+        // Remove any holds for this slot and order
+        foreach ($holds[$slot_value] as $token => $expiry) {
+            unset($holds[$slot_value][$token]);
+        }
+
+        if (empty($holds[$slot_value])) {
+            unset($holds[$slot_value]);
+        }
+
+        update_option(self::OPTION_HOLDS_KEY, $holds);
     }
 
     private function get_settings() {
