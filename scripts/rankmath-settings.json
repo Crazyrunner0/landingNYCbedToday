@@ -1,0 +1,45 @@
+{
+  "rank-math-options-general": {
+    "site_title": "NYC Bed Today",
+    "site_description": "Premium mattresses and bedding for New York City",
+    "enable_seo": true,
+    "enable_sitemap": true,
+    "enable_robots": true,
+    "enable_schema": true,
+    "knowledge_graph": "business",
+    "business_type": "LocalBusiness",
+    "sitemap_index": true,
+    "sitemap_size": 100
+  },
+  "rank-math-modules": {
+    "seo": true,
+    "sitemap": true,
+    "schema": true,
+    "redirects": false,
+    "404-monitor": false,
+    "local-seo": true,
+    "content-ai": false
+  },
+  "rank-math-site-meta": {
+    "name": "NYC Bed Today",
+    "url": "{{ SITE_URL }}",
+    "description": "Premium mattresses and bedding for New York City",
+    "address": "123 Main Street, New York, NY 10001, USA",
+    "phone": "+1 (212) 555-0123",
+    "businessType": "LocalBusiness",
+    "locationType": "Local",
+    "latitude": "40.7128",
+    "longitude": "-74.0060",
+    "sameAsUrls": [
+      "https://www.facebook.com/nycbedtoday",
+      "https://www.instagram.com/nycbedtoday",
+      "https://www.twitter.com/nycbedtoday"
+    ]
+  },
+  "rank-math-options-titles": {
+    "robots_default": "index, follow",
+    "robots_home": "index, follow",
+    "robots_singular": "index, follow",
+    "robots_archive": "index, follow"
+  }
+}

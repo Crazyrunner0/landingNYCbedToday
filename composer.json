@@ -42,7 +42,8 @@
     "roots/wp-password-bcrypt": "^1.1",
     "wpackagist-theme/blocksy": "^2.0",
     "wpackagist-plugin/woocommerce": "^9.0",
-    "wpackagist-plugin/woocommerce-gateway-stripe": "^8.0"
+    "wpackagist-plugin/woocommerce-gateway-stripe": "^8.0",
+    "wpackagist-plugin/rank-math": "^1.0"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.7.1",
