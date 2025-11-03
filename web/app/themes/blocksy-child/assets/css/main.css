@@ -1,0 +1,67 @@
+/* Non-critical styles - Loaded asynchronously */
+
+/* Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Layout enhancements */
+.site-content {
+  min-height: 50vh;
+}
+
+.site-footer {
+  padding: 2rem 0;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Performance optimizations */
+.lazy-load {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.lazy-load.loaded {
+  opacity: 1;
+}
+
+/* Responsive utilities */
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-section {
+    min-height: 70vh;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print,
+  .site-header,
+  .site-footer {
+    display: none;
+  }
+}
