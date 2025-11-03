@@ -2,7 +2,7 @@
 
 A modern WordPress development environment using Bedrock, Docker Compose, and PHP-FPM.
 
-> 🛒 **WooCommerce E-Commerce Ready!** This stack includes a complete WooCommerce setup with Stripe payments, one-page checkout, and analytics tracking. See [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for e-commerce documentation.
+> 🛒 **WooCommerce E-Commerce Ready!** This stack includes a complete WooCommerce setup with Stripe payments, one-page checkout, and analytics tracking. See [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for e-commerce documentation and [STRIPE_TEST_INTEGRATION.md](STRIPE_TEST_INTEGRATION.md) for Stripe test mode setup & testing.
 
 ## Stack
 

@@ -136,8 +136,9 @@ class WooCommerce_Custom_Setup {
         $stripe_settings = get_option('woocommerce_stripe_settings', []);
         
         if (empty($stripe_settings) || !isset($stripe_settings['enabled'])) {
-            $publishable_key = env('STRIPE_PUBLISHABLE_KEY');
-            $secret_key = env('STRIPE_SECRET_KEY');
+            // Try new environment variables first, then fallback to old ones for compatibility
+            $publishable_key = env('STRIPE_TEST_PUBLIC_KEY') ?? env('STRIPE_PUBLISHABLE_KEY');
+            $secret_key = env('STRIPE_TEST_SECRET_KEY') ?? env('STRIPE_SECRET_KEY');
             
             if ($publishable_key && $secret_key) {
                 $stripe_settings = array_merge($stripe_settings, [
