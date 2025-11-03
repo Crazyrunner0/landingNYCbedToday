@@ -3,6 +3,8 @@
 A modern WordPress development environment using Bedrock, Docker Compose, and PHP-FPM.
 
 > 🛒 **WooCommerce E-Commerce Ready!** This stack includes a complete WooCommerce setup with Stripe payments, one-page checkout, and analytics tracking. See [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for e-commerce documentation and [STRIPE_TEST_INTEGRATION.md](STRIPE_TEST_INTEGRATION.md) for Stripe test mode setup & testing.
+>
+> 🔍 **SEO Baseline with RankMath!** Core SEO tooling configured with RankMath, XML sitemaps, robots.txt, and JSON-LD structured data (LocalBusiness, BreadcrumbList, FAQ). See [SEO_BASELINE_RANKMATH.md](SEO_BASELINE_RANKMATH.md) for complete setup and validation guide.
 
 ## Stack
 
@@ -24,6 +26,8 @@ A modern WordPress development environment using Bedrock, Docker Compose, and PH
 - **WooCommerce with Stripe, Apple Pay, Google Pay**
 - **GA4 and Meta Pixel analytics tracking**
 - **One-page checkout with reduced fields**
+- **RankMath SEO with JSON-LD structured data**
+- **XML Sitemaps and robots.txt configuration**
 - Code quality tools: PHP CodeSniffer (WordPress Coding Standards), Prettier for formatting
 - Automated CI/CD pipeline with GitHub Actions
 
