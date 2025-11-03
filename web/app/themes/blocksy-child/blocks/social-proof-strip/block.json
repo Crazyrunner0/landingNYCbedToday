@@ -1,0 +1,52 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.4/block.json",
+	"apiVersion": 3,
+	"name": "blocksy-child/social-proof-strip",
+	"title": "Social Proof Strip",
+	"category": "blocksy-landing",
+	"icon": "star-filled",
+	"description": "Display trust signals and social proof",
+	"keywords": ["social", "proof", "testimonial", "trust"],
+	"textdomain": "blocksy-child",
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css",
+	"editorStyle": "file:./editor.css",
+	"attributes": {
+		"items": {
+			"type": "array",
+			"default": [
+				{
+					"id": 1,
+					"text": "Trusted by 50,000+ customers",
+					"icon": "star"
+				},
+				{
+					"id": 2,
+					"text": "4.9/5 stars average rating",
+					"icon": "star"
+				},
+				{
+					"id": 3,
+					"text": "Free delivery on all orders",
+					"icon": "truck"
+				}
+			]
+		}
+	},
+	"example": {
+		"attributes": {
+			"items": [
+				{
+					"id": 1,
+					"text": "Trusted by 50,000+ customers",
+					"icon": "star"
+				},
+				{
+					"id": 2,
+					"text": "4.9/5 stars average rating",
+					"icon": "star"
+				}
+			]
+		}
+	}
+}

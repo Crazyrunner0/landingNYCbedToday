@@ -1,0 +1,12 @@
+.wp-block-blocksy-child-final-cta {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+}
+
+.final-cta-controls {
+  display: none;
+}
+
+.wp-block-blocksy-child-final-cta .rich-text {
+  margin: 0;
+}

@@ -2,12 +2,12 @@
  * Performance optimizations
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Mark body as loaded when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       document.body.classList.add('loaded');
     });
   } else {
@@ -17,9 +17,9 @@
   // Lazy load images with Intersection Observer
   if ('IntersectionObserver' in window) {
     const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-    
-    const imageObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
+
+    const imageObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           const img = entry.target;
           if (img.dataset.src) {
@@ -31,7 +31,7 @@
       });
     });
 
-    lazyImages.forEach(function(img) {
+    lazyImages.forEach(function (img) {
       imageObserver.observe(img);
     });
   }
@@ -56,7 +56,7 @@
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     if ('PerformanceObserver' in window) {
       // CLS - Cumulative Layout Shift
-      const clsObserver = new PerformanceObserver(function(list) {
+      const clsObserver = new PerformanceObserver(function (list) {
         for (const entry of list.getEntries()) {
           if (!entry.hadRecentInput) {
             console.log('CLS:', entry.value);
@@ -66,7 +66,7 @@
       clsObserver.observe({ type: 'layout-shift', buffered: true });
 
       // LCP - Largest Contentful Paint
-      const lcpObserver = new PerformanceObserver(function(list) {
+      const lcpObserver = new PerformanceObserver(function (list) {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
         console.log('LCP:', lastEntry.renderTime || lastEntry.loadTime);
@@ -74,7 +74,7 @@
       lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
 
       // FID - First Input Delay
-      const fidObserver = new PerformanceObserver(function(list) {
+      const fidObserver = new PerformanceObserver(function (list) {
         for (const entry of list.getEntries()) {
           console.log('FID:', entry.processingStart - entry.startTime);
         }

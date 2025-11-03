@@ -4,21 +4,26 @@
   "description": "WordPress development stack with Bedrock, Docker, and modern tooling",
   "type": "module",
   "scripts": {
+    "build": "webpack --config webpack.config.cjs --mode production",
+    "start": "webpack --config webpack.config.cjs --mode development --watch",
     "format": "npm run format:php && npm run format:js && npm run format:json && npm run format:css && npm run format:md",
     "format:check": "npm run format:php:check && npm run format:js:check && npm run format:json:check && npm run format:css:check && npm run format:md:check",
     "format:php": "./vendor/bin/phpcbf --standard=phpcs.xml",
     "format:php:check": "./vendor/bin/phpcs --standard=phpcs.xml || true",
-    "format:js": "prettier --write --parser babel 'web/app/**/*.js' 'config/**/*.js' '!node_modules' '!vendor'",
-    "format:js:check": "prettier --check --parser babel 'web/app/**/*.js' 'config/**/*.js' '!node_modules' '!vendor' || true",
+    "format:js": "prettier --write --parser babel 'web/app/**/*.js' 'config/**/*.js' '!node_modules' '!vendor' '!web/app/themes/blocksy-child/build'",
+    "format:js:check": "prettier --check --parser babel 'web/app/**/*.js' 'config/**/*.js' '!node_modules' '!vendor' '!web/app/themes/blocksy-child/build' || true",
     "format:json": "prettier --write --parser json '**/*.json' '!node_modules' '!vendor'",
     "format:json:check": "prettier --check --parser json '**/*.json' '!node_modules' '!vendor' || true",
-    "format:css": "prettier --write --parser css 'web/app/**/*.css' '!node_modules' '!vendor'",
-    "format:css:check": "prettier --check --parser css 'web/app/**/*.css' '!node_modules' '!vendor' || true",
+    "format:css": "prettier --write --parser css 'web/app/**/*.css' '!node_modules' '!vendor' '!web/app/themes/blocksy-child/build'",
+    "format:css:check": "prettier --check --parser css 'web/app/**/*.css' '!node_modules' '!vendor' '!web/app/themes/blocksy-child/build' || true",
     "format:md": "prettier --write --parser markdown '**/*.md' '!node_modules' '!vendor'",
     "format:md:check": "prettier --check --parser markdown '**/*.md' '!node_modules' '!vendor' || true"
   },
-  "dependencies": {},
   "devDependencies": {
-    "prettier": "^3.0.0"
+    "@wordpress/icons": "^9.0.0",
+    "@wordpress/scripts": "^29.0.0",
+    "prettier": "^3.0.0",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1"
   }
 }

@@ -1,0 +1,18 @@
+.wp-block-blocksy-child-value-stack {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+}
+
+.value-stack-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.value-stack-item {
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+}
