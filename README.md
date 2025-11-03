@@ -174,6 +174,37 @@ This stack includes a complete WooCommerce setup. Features:
 - [WOOCOMMERCE_SETUP.md](WOOCOMMERCE_SETUP.md) - Detailed setup instructions
 - [TESTING_CHECKLIST.md](TESTING_CHECKLIST.md) - Testing procedures
 
+## Core Pages Scaffolding
+
+The stack includes a deterministic pages seeding system that creates a complete site structure with placeholder content:
+
+### Features
+
+- ✅ **Four Core Pages** (Home, Checkout, Privacy, Terms)
+- ✅ **Gutenberg Block Content** - Fully customizable via block editor
+- ✅ **Navigation Menus** - Primary header menu and footer menu
+- ✅ **Idempotent** - Safe to run multiple times without duplication
+- ✅ **Theme Integration** - Uses Blocksy child theme styling
+
+### Quick Start
+
+After WordPress installation is complete:
+
+```bash
+# Create pages and menus
+make seed-pages
+```
+
+This creates:
+- Home page as front page (/)
+- Checkout page (/checkout/)
+- Privacy policy (/privacy-policy/)
+- Terms & conditions (/terms/)
+- Primary navigation menu (header)
+- Footer navigation menu
+
+**For detailed documentation:** See [SEED_PAGES_GUIDE.md](SEED_PAGES_GUIDE.md)
+
 ## Makefile Commands
 
 The project includes a Makefile with several useful commands:

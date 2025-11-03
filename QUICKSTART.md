@@ -118,6 +118,46 @@ make clean
 3. Create admin account
 4. Login and start developing!
 
+## Seed Core Pages (After WordPress Setup)
+
+After completing WordPress installation and logging in, populate your site with core pages:
+
+```bash
+# Seed core pages (Home, Checkout, Privacy, Terms) with placeholder content
+make wp CMD='--allow-root eval-file scripts/seed-pages.php'
+```
+
+This script will:
+- Create four core pages with placeholder Gutenberg content blocks:
+  - **Home** (/) - Welcome page with featured products section
+  - **Checkout** (/checkout/) - WooCommerce checkout page
+  - **Privacy Policy** (/privacy-policy/) - Placeholder privacy policy
+  - **Terms & Conditions** (/terms/) - Placeholder terms page
+- Set Home as the front page
+- Create two navigation menus:
+  - **Primary Menu** - Displayed in the header (Home, Checkout, Terms, Privacy)
+  - **Footer Menu** - Displayed in the footer (Home, Terms, Privacy)
+- Automatically assign menus to their theme locations
+
+### Re-seeding Pages
+
+To refresh the pages with the latest template content:
+
+```bash
+# First, delete the seed marker
+make wp CMD='--allow-root option delete seed_pages_script_completed'
+
+# Then re-run the seed script
+make wp CMD='--allow-root eval-file scripts/seed-pages.php'
+```
+
+### Manual Page Management
+
+You can edit pages individually through the WordPress admin dashboard:
+- Admin URL: http://localhost:8080/wp-admin
+- Navigate to Pages to edit page content
+- Use the Gutenberg block editor to customize layout
+
 ## Troubleshooting
 
 ### Services won't start
