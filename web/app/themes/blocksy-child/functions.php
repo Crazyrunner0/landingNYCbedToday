@@ -1,7 +1,7 @@
 <?php
 /**
  * Blocksy Child Theme Functions
- * High-performance child theme with optimized asset loading
+ * Minimal skeleton setup - advanced optimizations deferred to Task 13
  */
 
 if (!defined('ABSPATH')) {
@@ -33,28 +33,6 @@ function blocksy_child_enqueue_styles() {
     );
 }
 add_action('wp_enqueue_scripts', 'blocksy_child_enqueue_styles', 10);
-
-/**
- * Enqueue performance JavaScript
- */
-function blocksy_child_enqueue_scripts() {
-    wp_enqueue_script(
-        'blocksy-child-performance',
-        BLOCKSY_CHILD_URI . '/assets/js/performance.js',
-        [],
-        BLOCKSY_CHILD_VERSION,
-        true
-    );
-}
-add_action('wp_enqueue_scripts', 'blocksy_child_enqueue_scripts', 10);
-
-/**
- * Load optimization modules
- */
-require_once BLOCKSY_CHILD_DIR . '/inc/critical-css.php';
-require_once BLOCKSY_CHILD_DIR . '/inc/font-preload.php';
-require_once BLOCKSY_CHILD_DIR . '/inc/asset-optimization.php';
-require_once BLOCKSY_CHILD_DIR . '/inc/header-footer-config.php';
 
 /**
  * Register navigation menus
@@ -97,20 +75,9 @@ function blocksy_child_setup() {
 add_action('after_setup_theme', 'blocksy_child_setup', 11);
 
 /**
- * Customize Blocksy options
- */
-function blocksy_child_customize_options($options) {
-    // Add custom options here
-    return $options;
-}
-add_filter('blocksy:options:general', 'blocksy_child_customize_options');
-
-/**
- * Add body classes for performance optimization
+ * Add body classes
  */
 function blocksy_child_body_classes($classes) {
-    $classes[] = 'loading';
-    
     if (is_page_template('templates/landing-page.php')) {
         $classes[] = 'landing-page';
     }
@@ -118,18 +85,6 @@ function blocksy_child_body_classes($classes) {
     return $classes;
 }
 add_filter('body_class', 'blocksy_child_body_classes');
-
-/**
- * Optimize header output
- */
-function blocksy_child_header_output() {
-    ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <meta name="theme-color" content="#2563eb">
-    <link rel="dns-prefetch" href="<?php echo esc_url(home_url('/')); ?>">
-    <?php
-}
-add_action('wp_head', 'blocksy_child_header_output', 0);
 
 /**
  * Add skip link for accessibility
@@ -140,7 +95,7 @@ function blocksy_child_skip_link() {
 add_action('wp_body_open', 'blocksy_child_skip_link', 1);
 
 /**
- * Customize menu output with performance attributes
+ * Customize menu output with security attributes
  */
 function blocksy_child_nav_menu_link_attributes($atts, $item, $args) {
     // Add rel="noopener" for external links
@@ -153,59 +108,6 @@ function blocksy_child_nav_menu_link_attributes($atts, $item, $args) {
 add_filter('nav_menu_link_attributes', 'blocksy_child_nav_menu_link_attributes', 10, 3);
 
 /**
- * Remove unnecessary header meta
- */
-function blocksy_child_clean_head() {
-    remove_action('wp_head', 'wp_generator');
-    remove_action('wp_head', 'wlwmanifest_link');
-    remove_action('wp_head', 'rsd_link');
-    remove_action('wp_head', 'wp_shortlink_wp_head');
-    remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10);
-    remove_action('wp_head', 'rest_output_link_wp_head');
-    remove_action('wp_head', 'wp_oembed_add_discovery_links');
-}
-add_action('init', 'blocksy_child_clean_head');
-
-/**
- * Add custom Blocksy header/footer templates
- */
-function blocksy_child_custom_header_footer() {
-    // This hook allows customization of Blocksy header/footer
-    // You can add custom header/footer logic here
-}
-add_action('blocksy:header:after', 'blocksy_child_custom_header_footer');
-
-/**
- * Optimize archive queries for better performance
- */
-function blocksy_child_optimize_queries($query) {
-    if (!is_admin() && $query->is_main_query()) {
-        // Limit posts per page for better performance
-        if (is_archive() || is_home()) {
-            $query->set('posts_per_page', 12);
-        }
-    }
-}
-add_action('pre_get_posts', 'blocksy_child_optimize_queries');
-
-/**
- * Add performance hints to REST API responses
- */
-function blocksy_child_rest_performance_headers() {
-    header('Cache-Control: max-age=3600');
-}
-add_action('rest_api_init', function() {
-    add_action('rest_pre_serve_request', 'blocksy_child_rest_performance_headers');
-});
-
-/**
- * Disable admin bar on frontend for better performance
- */
-add_filter('show_admin_bar', function($show) {
-    return current_user_can('administrator') ? $show : false;
-});
-
-/**
  * Custom excerpt length
  */
 function blocksy_child_excerpt_length($length) {
@@ -213,20 +115,49 @@ function blocksy_child_excerpt_length($length) {
 }
 add_filter('excerpt_length', 'blocksy_child_excerpt_length');
 
-/**
- * Add schema.org markup for better SEO
+/*
+ * ============================================================================
+ * PERFORMANCE OPTIMIZATION MODULES - DISABLED FOR SKELETON SETUP
+ * ============================================================================
+ * The following modules are intentionally disabled and will be re-enabled in
+ * Task 13: Performance Optimization Pass. They include:
+ * - Critical CSS inlining
+ * - Font preloading
+ * - Asset optimization (script deferring, lazy loading, emoji removal)
+ * - Header/footer configuration optimization
+ * - Web Vitals monitoring
+ *
+ * To re-enable these modules in Task 13:
+ * 1. Uncomment the require statements below
+ * 2. Re-add commented-out functions back to functions.php
+ * 3. Re-enable performance.js script enqueue
+ * See PERFORMANCE_OPTIMIZATION.md for detailed re-enablement instructions.
+ * ============================================================================
  */
-function blocksy_child_schema_markup() {
-    if (is_front_page() || is_home()) {
-        $schema = [
-            '@context' => 'https://schema.org',
-            '@type' => 'WebSite',
-            'name' => get_bloginfo('name'),
-            'description' => get_bloginfo('description'),
-            'url' => home_url('/')
-        ];
-        
-        echo '<script type="application/ld+json">' . wp_json_encode($schema) . '</script>';
-    }
-}
-add_action('wp_footer', 'blocksy_child_schema_markup', 99);
+
+// Performance Optimization Modules (disabled for skeleton setup):
+// require_once BLOCKSY_CHILD_DIR . '/inc/critical-css.php';
+// require_once BLOCKSY_CHILD_DIR . '/inc/font-preload.php';
+// require_once BLOCKSY_CHILD_DIR . '/inc/asset-optimization.php';
+// require_once BLOCKSY_CHILD_DIR . '/inc/header-footer-config.php';
+
+// Performance JavaScript (disabled for skeleton setup):
+// wp_enqueue_script(
+//     'blocksy-child-performance',
+//     BLOCKSY_CHILD_URI . '/assets/js/performance.js',
+//     [],
+//     BLOCKSY_CHILD_VERSION,
+//     true
+// );
+
+/*
+ * Disabled Performance Functions (commented for re-enablement in Task 13):
+ *
+ * - blocksy_child_customize_options(): Blocksy option customization
+ * - blocksy_child_header_output(): Viewport and theme-color meta tags
+ * - blocksy_child_clean_head(): Remove unnecessary header meta
+ * - blocksy_child_custom_header_footer(): Custom header/footer logic
+ * - blocksy_child_optimize_queries(): Archive query optimization
+ * - blocksy_child_rest_performance_headers(): REST API cache headers
+ * - blocksy_child_schema_markup(): Schema.org markup for SEO
+ */

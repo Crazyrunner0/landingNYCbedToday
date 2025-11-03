@@ -40,7 +40,7 @@
     "roots/wordpress": "^6.4",
     "roots/wp-config": "^1.0",
     "roots/wp-password-bcrypt": "^1.1",
-    "wpackagist-theme/twentytwentyfour": "^1.0",
+    "wpackagist-theme/blocksy": "^2.0",
     "wpackagist-plugin/woocommerce": "^9.0",
     "wpackagist-plugin/woocommerce-gateway-stripe": "^8.0"
   },

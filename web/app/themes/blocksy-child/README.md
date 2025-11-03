@@ -1,21 +1,21 @@
 # Blocksy Child Theme
 
-A high-performance child theme for Blocksy with optimized asset loading, critical CSS pipeline, and theme.json configuration.
+A minimal skeleton child theme for Blocksy with essential theme features and deferred performance optimizations.
 
-## Features
+## Current Features (Skeleton Setup)
 
-### Performance Optimizations
-- **Critical CSS Pipeline**: Inline critical CSS in `<head>` for faster initial render
-- **Async CSS Loading**: Non-critical CSS loaded asynchronously
-- **Font Preloading**: Preload critical web fonts for faster text rendering
-- **Asset Optimization**: Deferred JavaScript, removed query strings, conditional loading
-- **Lazy Loading**: Images lazy-loaded with native browser support
-- **Web Vitals Monitoring**: Built-in Web Vitals tracking in development mode
+### Core Functionality
+- Theme metadata and branding
+- Parent/child style enqueuing
+- Menu registration (Primary, Footer, Header CTA)
+- Basic theme support (responsive embeds, custom spacing, etc.)
+- theme.json configuration with color palette, typography scale, and spacing system
+- Editor styles support
+- Accessibility features (skip link)
 
 ### Theme Configuration
 - **theme.json**: Complete color palette, typography scale, and spacing system
 - **Minimal CSS**: Only essential styles, leveraging Blocksy parent theme
-- **Custom Templates**: Optimized landing page template
 - **Menu Support**: Primary, footer, and header CTA menus
 
 ### Asset Structure
@@ -23,29 +23,35 @@ A high-performance child theme for Blocksy with optimized asset loading, critica
 web/app/themes/blocksy-child/
 ├── assets/
 │   ├── css/
-│   │   ├── critical.css    # Inlined critical CSS
-│   │   ├── main.css         # Non-critical CSS (async loaded)
-│   │   └── editor-style.css # Editor styles
+│   │   ├── critical.css       # [Task 13] Inlined critical CSS
+│   │   ├── main.css           # [Task 13] Non-critical CSS
+│   │   └── editor-style.css   # Editor styles
 │   └── js/
-│       └── performance.js   # Performance optimizations
+│       └── performance.js     # [Task 13] Performance optimizations
 ├── inc/
-│   ├── critical-css.php     # Critical CSS handler
-│   ├── font-preload.php     # Font preloading
-│   ├── asset-optimization.php # Asset optimization
-│   └── header-footer-config.php # Header/footer setup
+│   ├── critical-css.php       # [Task 13] Critical CSS handler
+│   ├── font-preload.php       # [Task 13] Font preloading
+│   ├── asset-optimization.php # [Task 13] Asset optimization
+│   └── header-footer-config.php # [Task 13] Header/footer optimization
 ├── templates/
-│   └── landing-page.php     # Landing page template
-├── functions.php            # Main theme functions
-├── theme.json               # FSE configuration
-└── style.css                # Theme header & minimal styles
+│   └── landing-page.php       # Landing page template
+├── functions.php              # Main theme functions
+├── theme.json                 # FSE configuration
+└── style.css                  # Theme header & minimal styles
 ```
 
 ## Installation
 
-1. Install and activate the Blocksy parent theme
-2. Ensure this child theme is in `/web/app/themes/blocksy-child/`
+1. Ensure Blocksy parent theme is installed (managed via Composer)
+2. This child theme should be at `/web/app/themes/blocksy-child/`
 3. Activate the child theme from WordPress admin
 4. Navigate to Appearance > Menus to configure menus
+
+### Activation via WP-CLI
+
+```bash
+wp theme activate blocksy-child
+```
 
 ## Configuration
 
@@ -55,105 +61,109 @@ The theme registers three menu locations:
 - **Footer Menu**: Footer navigation links
 - **Header CTA Menu**: Call-to-action links in header
 
-### Landing Page Template
-To use the landing page template:
-1. Create/edit a page
-2. Select "Landing Page" from the Template dropdown
-3. Add content using blocks or custom fields
+## Performance Optimizations (Deferred to Task 13)
 
-#### Custom Fields for Landing Page
-- `cta_title`: CTA section title
-- `cta_text`: CTA section description
-- `cta_button_text`: CTA button label
-- `cta_button_link`: CTA button URL
+The following advanced performance optimization modules are currently **disabled** for the skeleton setup and will be re-enabled in **Task 13: Performance Optimization Pass**:
 
-### Font Preloading
-Edit `inc/font-preload.php` to add your custom fonts:
+### Disabled Modules
+
+1. **Critical CSS Pipeline** (`inc/critical-css.php`)
+   - Inlines critical CSS in `<head>` for faster initial render
+   - Loads non-critical CSS asynchronously
+
+2. **Font Preloading** (`inc/font-preload.php`)
+   - Preloads critical web fonts for faster text rendering
+   - Configures font-display: swap for Google Fonts
+   - DNS prefetch and preconnect optimization
+
+3. **Asset Optimization** (`inc/asset-optimization.php`)
+   - Defers non-critical JavaScript
+   - Removes emoji detection scripts
+   - Conditional asset loading based on page type
+   - Query string removal from static resources
+   - jQuery footer optimization
+   - Native lazy loading for images
+
+4. **Header/Footer Optimization** (`inc/header-footer-config.php`)
+   - Advanced header/footer configuration
+   - Navigation schema markup
+   - Mobile menu optimization
+
+5. **Web Vitals Monitoring** (`assets/js/performance.js`)
+   - CLS, LCP, FID monitoring in development
+   - Performance event tracking
+
+### Disabled Functions in functions.php
+
+The following functions are also disabled:
+- `blocksy_child_customize_options()`: Blocksy option customization
+- `blocksy_child_header_output()`: Viewport and theme-color meta tags
+- `blocksy_child_clean_head()`: Removal of unnecessary header meta
+- `blocksy_child_custom_header_footer()`: Custom header/footer logic
+- `blocksy_child_optimize_queries()`: Archive query optimization
+- `blocksy_child_rest_performance_headers()`: REST API performance headers
+- `blocksy_child_schema_markup()`: Schema.org markup for SEO
+
+## Re-enabling Performance Modules (Task 13)
+
+To re-enable performance optimizations in Task 13:
+
+### Step 1: Enable Module Includes
+In `functions.php`, uncomment the require statements around line 138-142:
+
 ```php
-$fonts_to_preload = [
-    [
-        'href' => get_stylesheet_directory_uri() . '/assets/fonts/your-font.woff2',
-        'type' => 'font/woff2',
-        'crossorigin' => 'anonymous'
-    ]
-];
+require_once BLOCKSY_CHILD_DIR . '/inc/critical-css.php';
+require_once BLOCKSY_CHILD_DIR . '/inc/font-preload.php';
+require_once BLOCKSY_CHILD_DIR . '/inc/asset-optimization.php';
+require_once BLOCKSY_CHILD_DIR . '/inc/header-footer-config.php';
 ```
 
-### Theme Colors (theme.json)
-- Primary: #2563eb
-- Secondary: #64748b
-- Accent: #f59e0b
-- Base: #ffffff
-- Contrast: #0f172a
+### Step 2: Enable Performance Script
+Uncomment the performance script enqueue around line 145-151:
 
-### Typography Scale
-- Extra Small: 0.75rem
-- Small: 0.875rem
-- Base: 1rem
-- Medium: 1.125rem
-- Large: 1.25rem
-- Extra Large: 1.5rem
-- 2XL: 2rem
-- 3XL: 2.5rem
-- 4XL: 3rem
+```php
+wp_enqueue_script(
+    'blocksy-child-performance',
+    BLOCKSY_CHILD_URI . '/assets/js/performance.js',
+    [],
+    BLOCKSY_CHILD_VERSION,
+    true
+);
+```
 
-## Performance Features
+### Step 3: Re-enable Functions
+Uncomment the disabled functions referenced in the `Disabled Performance Functions` section of `functions.php`.
 
-### Critical CSS
-Critical CSS is automatically inlined in the `<head>` for faster initial paint. Non-critical CSS is loaded asynchronously.
+### Step 4: Verify Performance
+- Run `composer install` to ensure all dependencies are resolved
+- Activate theme if not already active
+- Test on desktop and mobile
+- Run Lighthouse audit to verify performance scores >90
 
-### Asset Optimization
-- Defers non-critical JavaScript
-- Removes unused WordPress assets (emojis, block styles on non-block pages)
-- Removes query strings from static resources
-- Optimizes jQuery delivery (moved to footer)
-- Adds performance and security headers
+## Lighthouse Performance Baseline
 
-### Font Optimization
-- Preconnects to Google Fonts domains
-- Font-display: swap for Google Fonts
-- Resource hints (dns-prefetch, preconnect)
-
-### Image Optimization
-- Native lazy loading for images
-- Intersection Observer for advanced lazy loading
-- Proper loading attributes (eager for hero images)
-
-## Lighthouse Performance Goals
-
-Target metrics for skeleton page:
+Target metrics for skeleton setup (with minimal assets):
 - **Performance**: >90
 - **Accessibility**: >90
 - **Best Practices**: >90
 - **SEO**: >90
 
-## Development
-
-### Web Vitals Monitoring
-In development (localhost), the theme logs Web Vitals to console:
-- CLS (Cumulative Layout Shift)
-- LCP (Largest Contentful Paint)
-- FID (First Input Delay)
-
-### Customization
-- Add custom styles to `assets/css/main.css`
-- Add custom JavaScript to `assets/js/performance.js`
-- Extend functionality via hooks and filters in `functions.php`
-
-## Filters & Hooks
-
-### Available Filters
-- `blocksy_child_preload_fonts`: Modify fonts to preload
-- `blocksy_child_skip_defer_scripts`: Scripts to skip deferring
-
-### Available Actions
-- `blocksy:header:after`: Runs after Blocksy header
-- Custom body classes for template-specific styling
-
 ## Browser Support
 - Modern browsers (Chrome, Firefox, Safari, Edge)
 - Progressive enhancement for older browsers
-- Graceful degradation with `<noscript>` fallbacks
+
+## Development
+
+### Customization
+- Add custom styles to `assets/css/main.css` (Task 13 activation required)
+- Add custom JavaScript to `assets/js/performance.js` (Task 13 activation required)
+- Extend functionality via hooks and filters in `functions.php`
+
+### Available Hooks & Filters
+- `wp_enqueue_scripts`: Load additional assets
+- `wp_body_open`: Add content at start of body
+- `body_class`: Filter body element classes
+- `nav_menu_link_attributes`: Customize menu link attributes
 
 ## License
 GNU General Public License v2 or later
