@@ -30,24 +30,26 @@ Complete documentation for the WordPress development stack and deployment pipeli
 - **[Production Launch Guide](production-launch.md)** - Complete production go-live checklist (DNS, SSL, Stripe, monitoring)
 - **[Production Rollout Checklist](production-rollout-checklist.md)** - Step-by-step launch day procedures and validation
 - **[Backup & Recovery Guide](backup-recovery.md)** - Database/uploads backups, automated scripts, restore procedures
+- **[Multibrand Rollout Guide](multibrand.md)** - Setting up new brands, DNS/Cloudflare/Stripe per-brand, content templates, parametrized CI/CD
 - **[Operations Runbook](ops-runbook.md)** - Daily operations, maintenance tasks, monitoring, troubleshooting
 
 ## Directory Structure
 
 ```
 docs/
-├── README.md                      # This file (index/TOC)
-├── architecture.md                # Bedrock structure, paths, environments
-├── setup-local.md                # Docker/Make targets, .env configuration
-├── deployment.md                 # Staging/prod, GitHub Actions, rsync/ssh
-├── production-launch.md          # Complete production go-live guide
-├── production-rollout-checklist.md # Launch day procedures and validation
-├── backup-recovery.md            # Database/uploads backups and restore procedures
-├── design-system.md              # Theme tokens, components, accessibility
-├── blocks.md                     # Custom Gutenberg blocks usage
-├── logistics.md                  # ZIP/slots/cut-off admin and UX
-├── seo-analytics.md              # RankMath, JSON-LD, GA4/Pixel
-└── ops-runbook.md                # Cache, common commands, troubleshooting
+├── README.md                          # This file (index/TOC)
+├── architecture.md                    # Bedrock structure, paths, environments
+├── setup-local.md                     # Docker/Make targets, .env configuration
+├── deployment.md                      # Staging/prod, GitHub Actions, rsync/ssh
+├── production-launch.md               # Complete production go-live guide
+├── production-rollout-checklist.md    # Launch day procedures and validation
+├── backup-recovery.md                 # Database/uploads backups and restore procedures
+├── multibrand.md                      # Multibrand setup, cloning guide, per-brand config
+├── design-system.md                   # Theme tokens, components, accessibility
+├── blocks.md                          # Custom Gutenberg blocks usage
+├── logistics.md                       # ZIP/slots/cut-off admin and UX
+├── seo-analytics.md                   # RankMath, JSON-LD, GA4/Pixel
+└── ops-runbook.md                     # Cache, common commands, troubleshooting
 ```
 
 ## Common Tasks
@@ -86,6 +88,9 @@ docs/
 
 **Backup or recover the database/uploads**
 → [Backup & Recovery Guide](backup-recovery.md)
+
+**Set up a new sibling brand (multibrand rollout)**
+→ [Multibrand Rollout Guide](multibrand.md)
 
 ## Core Concepts
 
@@ -147,6 +152,7 @@ See [Setup Guide](setup-local.md) for complete list.
 ✅ **SEO** - RankMath with structured data
 ✅ **Automated Deployment** - GitHub Actions CI/CD
 ✅ **Performance** - Redis caching, optimized assets
+✅ **Multibrand Support** - Configuration-based brand switching in <1 hour
 
 ## Technology Stack
 
