@@ -5,6 +5,70 @@ defined('ABSPATH') || exit;
 if (class_exists('WP_CLI_Command')) {
     class NYCBEDTODAY_Logistics_CLI_Commands extends WP_CLI_Command {
         
+        public function reseed_zips($args, $assoc_args) {
+            WP_CLI::line('Reseeding default NYC ZIP codes...');
+            
+            $zips = NYCBEDTODAY_Logistics_ZIP_Manager::reseed_default_zips();
+            
+            if (!empty($zips)) {
+                WP_CLI::success(sprintf('Reseeded %d NYC ZIP codes successfully.', count($zips)));
+            } else {
+                WP_CLI::error('Failed to reseed ZIP codes.');
+            }
+        }
+        
+        public function list_zips($args, $assoc_args) {
+            $zips = NYCBEDTODAY_Logistics_ZIP_Manager::get_zip_whitelist();
+            
+            if (empty($zips)) {
+                WP_CLI::line('No ZIP codes in whitelist.');
+                return;
+            }
+            
+            $format = isset($assoc_args['format']) ? $assoc_args['format'] : 'list';
+            
+            if ($format === 'json') {
+                WP_CLI::line(wp_json_encode($zips, JSON_PRETTY_PRINT));
+            } elseif ($format === 'csv') {
+                WP_CLI::line(implode(',', $zips));
+            } else {
+                foreach ($zips as $zip) {
+                    WP_CLI::line($zip);
+                }
+            }
+        }
+        
+        public function import_zips($args, $assoc_args) {
+            if (empty($args[0])) {
+                WP_CLI::error('File path is required.');
+                return;
+            }
+            
+            $file_path = $args[0];
+            $clear_existing = isset($assoc_args['clear']);
+            
+            if (!file_exists($file_path)) {
+                WP_CLI::error('File not found: ' . $file_path);
+                return;
+            }
+            
+            $zips = NYCBEDTODAY_Logistics_ZIP_Manager::load_zips_from_file($file_path);
+            
+            if (empty($zips)) {
+                WP_CLI::error('No ZIP codes found in file.');
+                return;
+            }
+            
+            $zips_text = implode("\n", $zips);
+            $imported = NYCBEDTODAY_Logistics_ZIP_Manager::import_zips($zips_text, $clear_existing);
+            
+            if ($imported > 0 || !$clear_existing) {
+                WP_CLI::success(sprintf('Imported %d ZIP codes from %s', count($zips), basename($file_path)));
+            } else {
+                WP_CLI::error('Failed to import ZIP codes.');
+            }
+        }
+        
         public function generate_slots($args, $assoc_args) {
             $start_date = isset($assoc_args['start-date']) ? $assoc_args['start-date'] : null;
             $end_date = isset($assoc_args['end-date']) ? $assoc_args['end-date'] : null;
@@ -111,6 +175,9 @@ if (class_exists('WP_CLI_Command')) {
         }
     }
     
+    WP_CLI::add_command('nycbt zip reseed', array('NYCBEDTODAY_Logistics_CLI_Commands', 'reseed_zips'));
+    WP_CLI::add_command('nycbt zip list', array('NYCBEDTODAY_Logistics_CLI_Commands', 'list_zips'));
+    WP_CLI::add_command('nycbt zip import', array('NYCBEDTODAY_Logistics_CLI_Commands', 'import_zips'));
     WP_CLI::add_command('nycbt logistics generate-slots', array('NYCBEDTODAY_Logistics_CLI_Commands', 'generate_slots'));
     WP_CLI::add_command('nycbt logistics list-slots', array('NYCBEDTODAY_Logistics_CLI_Commands', 'list_slots'));
     WP_CLI::add_command('nycbt logistics update-slot', array('NYCBEDTODAY_Logistics_CLI_Commands', 'update_slot'));
