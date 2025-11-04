@@ -209,6 +209,42 @@ This creates:
 
 **For detailed documentation:** See [SEED_PAGES_GUIDE.md](SEED_PAGES_GUIDE.md)
 
+## Live Preview with Cloudflare Tunnel
+
+Share a public HTTPS preview URL of your local WordPress site without deploying it. Perfect for demos, mobile testing, or sharing with team members.
+
+### Quick Start
+
+1. **Start the preview:**
+   ```bash
+   make preview.up
+   ```
+   
+   This outputs a public URL like: `https://example-tunnel.trycloudflare.com`
+
+2. **Update WordPress URLs** (in `.env.local`):
+   ```bash
+   WP_HOME='https://example-tunnel.trycloudflare.com'
+   WP_SITEURL='${WP_HOME}/wp'
+   DISALLOW_INDEXING='true'
+   ```
+   
+   Then flush cache:
+   ```bash
+   make wp CMD='cache flush'
+   ```
+
+3. **Share the URL** - Your site is now publicly accessible!
+
+4. **Stop when done:**
+   ```bash
+   make preview.down
+   ```
+
+**Requirements:** Install [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/)
+
+**Full Documentation:** See [CLOUDFLARE_TUNNEL_PREVIEW.md](CLOUDFLARE_TUNNEL_PREVIEW.md) for advanced usage, named tunnels, and troubleshooting.
+
 ## Makefile Commands
 
 The project includes a Makefile with several useful commands:
@@ -226,6 +262,11 @@ make composer    # Run composer commands (e.g., make composer CMD='update')
 make wp          # Run WP-CLI commands (e.g., make wp CMD='plugin list')
 make healthcheck # Run WordPress stack health check
 make clean       # Clean up containers, volumes, and vendor directory
+
+# Preview commands
+make preview.up     # Start Cloudflare Tunnel for live preview
+make preview.down   # Stop Cloudflare Tunnel
+make preview.status # Check tunnel status
 ```
 
 ### Bootstrap Command
