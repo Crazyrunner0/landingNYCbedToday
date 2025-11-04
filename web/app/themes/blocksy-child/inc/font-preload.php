@@ -56,12 +56,16 @@ function blocksy_child_font_preconnect() {
 add_action('wp_head', 'blocksy_child_font_preconnect', 0);
 
 /**
- * Add resource hints for DNS prefetch
+ * Add resource hints for DNS prefetch and preconnect
  */
 function blocksy_child_resource_hints($urls, $relation_type) {
     if ('dns-prefetch' === $relation_type) {
         $urls[] = '//fonts.googleapis.com';
         $urls[] = '//fonts.gstatic.com';
+        $urls[] = '//www.google-analytics.com';
+        $urls[] = '//www.googletagmanager.com';
+        $urls[] = '//stripe.com';
+        $urls[] = '//q.stripe.com';
     }
     
     if ('preconnect' === $relation_type) {
@@ -71,6 +75,18 @@ function blocksy_child_resource_hints($urls, $relation_type) {
         ];
         $urls[] = [
             'href' => 'https://fonts.gstatic.com',
+            'crossorigin' => 'anonymous'
+        ];
+        $urls[] = [
+            'href' => 'https://www.googletagmanager.com',
+            'crossorigin' => 'anonymous'
+        ];
+        $urls[] = [
+            'href' => 'https://stripe.com',
+            'crossorigin' => 'anonymous'
+        ];
+        $urls[] = [
+            'href' => 'https://q.stripe.com',
             'crossorigin' => 'anonymous'
         ];
     }

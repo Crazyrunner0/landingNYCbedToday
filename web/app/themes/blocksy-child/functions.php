@@ -120,49 +120,108 @@ add_filter('excerpt_length', 'blocksy_child_excerpt_length');
  */
 require_once BLOCKSY_CHILD_DIR . '/inc/register-blocks.php';
 
-/*
+/**
  * ============================================================================
- * PERFORMANCE OPTIMIZATION MODULES - DISABLED FOR SKELETON SETUP
+ * PERFORMANCE OPTIMIZATION MODULES - ENABLED
  * ============================================================================
- * The following modules are intentionally disabled and will be re-enabled in
- * Task 13: Performance Optimization Pass. They include:
- * - Critical CSS inlining
- * - Font preloading
+ * Performance optimization modules for Core Web Vitals targets:
+ * - Critical CSS inlining for above-the-fold content
+ * - Font preloading with preconnect hints
  * - Asset optimization (script deferring, lazy loading, emoji removal)
  * - Header/footer configuration optimization
- * - Web Vitals monitoring
- *
- * To re-enable these modules in Task 13:
- * 1. Uncomment the require statements below
- * 2. Re-add commented-out functions back to functions.php
- * 3. Re-enable performance.js script enqueue
- * See PERFORMANCE_OPTIMIZATION.md for detailed re-enablement instructions.
+ * - Web Vitals monitoring with PerformanceObserver
+ * - WebP/AVIF media optimization pipeline
  * ============================================================================
  */
 
-// Performance Optimization Modules (disabled for skeleton setup):
-// require_once BLOCKSY_CHILD_DIR . '/inc/critical-css.php';
-// require_once BLOCKSY_CHILD_DIR . '/inc/font-preload.php';
-// require_once BLOCKSY_CHILD_DIR . '/inc/asset-optimization.php';
-// require_once BLOCKSY_CHILD_DIR . '/inc/header-footer-config.php';
+// Performance Optimization Modules:
+require_once BLOCKSY_CHILD_DIR . '/inc/critical-css.php';
+require_once BLOCKSY_CHILD_DIR . '/inc/font-preload.php';
+require_once BLOCKSY_CHILD_DIR . '/inc/asset-optimization.php';
+require_once BLOCKSY_CHILD_DIR . '/inc/header-footer-config.php';
+require_once BLOCKSY_CHILD_DIR . '/inc/media-optimization.php';
 
-// Performance JavaScript (disabled for skeleton setup):
-// wp_enqueue_script(
-//     'blocksy-child-performance',
-//     BLOCKSY_CHILD_URI . '/assets/js/performance.js',
-//     [],
-//     BLOCKSY_CHILD_VERSION,
-//     true
-// );
-
-/*
- * Disabled Performance Functions (commented for re-enablement in Task 13):
- *
- * - blocksy_child_customize_options(): Blocksy option customization
- * - blocksy_child_header_output(): Viewport and theme-color meta tags
- * - blocksy_child_clean_head(): Remove unnecessary header meta
- * - blocksy_child_custom_header_footer(): Custom header/footer logic
- * - blocksy_child_optimize_queries(): Archive query optimization
- * - blocksy_child_rest_performance_headers(): REST API cache headers
- * - blocksy_child_schema_markup(): Schema.org markup for SEO
+/**
+ * Customize Blocksy theme options
  */
+function blocksy_child_customize_options($options) {
+    return $options;
+}
+add_filter('blocksy:options:general', 'blocksy_child_customize_options');
+
+/**
+ * Add custom header output for viewport and theme-color
+ */
+function blocksy_child_header_output() {
+    echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">';
+    echo '<meta name="theme-color" content="#ffffff">';
+}
+add_action('wp_head', 'blocksy_child_header_output', 0);
+
+/**
+ * Clean unnecessary header elements
+ */
+function blocksy_child_clean_head() {
+    remove_action('wp_head', 'wp_generator');
+    remove_action('wp_head', 'wlwmanifest_link');
+    remove_action('wp_head', 'rsd_link');
+    remove_action('wp_head', 'wp_shortlink_wp_head');
+    remove_action('wp_head', 'adjacent_posts_rel_link_wp_head');
+}
+add_action('init', 'blocksy_child_clean_head');
+
+/**
+ * Custom header/footer logic
+ */
+function blocksy_child_custom_header_footer() {
+    // Hook for custom header/footer manipulations
+}
+add_action('blocksy:header:after', 'blocksy_child_custom_header_footer');
+
+/**
+ * Optimize archive queries
+ */
+function blocksy_child_optimize_queries($query) {
+    if (!is_admin() && $query->is_main_query()) {
+        if ($query->is_archive() || $query->is_home()) {
+            $query->set('posts_per_page', 12);
+        }
+    }
+}
+add_action('pre_get_posts', 'blocksy_child_optimize_queries');
+
+/**
+ * Add REST API performance headers
+ */
+function blocksy_child_rest_performance_headers() {
+    header('Cache-Control: max-age=3600, public');
+}
+add_action('rest_api_init', 'blocksy_child_rest_performance_headers');
+
+/**
+ * Add schema markup for SEO
+ */
+function blocksy_child_schema_markup() {
+    if (is_front_page() || is_home()) {
+        $schema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => get_bloginfo('name'),
+            'url' => esc_url(home_url())
+        ];
+        echo '<script type="application/ld+json">' . wp_json_encode($schema) . '</script>';
+    }
+}
+add_action('wp_footer', 'blocksy_child_schema_markup', 99);
+
+// Performance JavaScript for Web Vitals monitoring:
+function blocksy_child_enqueue_performance_script() {
+    wp_enqueue_script(
+        'blocksy-child-performance',
+        BLOCKSY_CHILD_URI . '/assets/js/performance.js',
+        [],
+        BLOCKSY_CHILD_VERSION,
+        true
+    );
+}
+add_action('wp_enqueue_scripts', 'blocksy_child_enqueue_performance_script', 11);
