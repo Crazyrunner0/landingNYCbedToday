@@ -1,485 +1,274 @@
 # WordPress Development Stack
 
-A modern WordPress development environment using Bedrock, Docker Compose, and PHP-FPM.
+A modern WordPress development environment using Bedrock, Docker Compose, and PHP-FPM with WooCommerce e-commerce, analytics tracking, and SEO optimization.
 
-> 🛒 **WooCommerce E-Commerce Ready!** This stack includes a complete WooCommerce setup with Stripe payments, one-page checkout, and analytics tracking. See [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for e-commerce documentation and [STRIPE_TEST_INTEGRATION.md](STRIPE_TEST_INTEGRATION.md) for Stripe test mode setup & testing.
->
-> 🔍 **SEO Baseline with RankMath!** Core SEO tooling configured with RankMath, XML sitemaps, robots.txt, and JSON-LD structured data (LocalBusiness, BreadcrumbList, FAQ). See [SEO_BASELINE_RANKMATH.md](SEO_BASELINE_RANKMATH.md) for complete setup and validation guide.
+## Quick Links
 
-## Stack
+📚 **Complete Documentation**: See [`docs/README.md`](docs/README.md) for full documentation index.
 
-- **WordPress**: Bedrock-based setup with Composer dependency management
-- **WooCommerce**: E-commerce platform with Stripe payment gateway
-- **Web Server**: Nginx (Alpine)
-- **PHP**: PHP 8.2-FPM (Alpine)
-- **Database**: MariaDB (Latest)
-- **Cache**: Redis (Alpine)
+### Getting Started
 
-## Features
+- **[Setup Guide](docs/setup-local.md)** - Local development setup
+- **[Architecture Guide](docs/architecture.md)** - Project structure and configuration
+- **[Deployment Guide](docs/deployment.md)** - Staging and production deployment
 
-- Modern WordPress stack structure (Bedrock)
-- Environment-based configuration with `.env` files
-- Composer dependency management
-- Docker containerization (nginx, php-fpm, MariaDB, Redis)
-- Makefile for common development tasks
-- Security best practices built-in
-- **WooCommerce with Stripe, Apple Pay, Google Pay**
-- **GA4 and Meta Pixel analytics tracking**
-- **One-page checkout with reduced fields**
-- **RankMath SEO with JSON-LD structured data**
-- **XML Sitemaps and robots.txt configuration**
-- Code quality tools: PHP CodeSniffer (WordPress Coding Standards), Prettier for formatting
-- Automated CI/CD pipeline with GitHub Actions
+### Features
 
-## Development & Contributing
-
-This project follows a **linear PR workflow** with automated code quality checks. For detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-### Local Development Tooling
-
-#### Required Tools
-- PHP 8.0+ (with extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, json, opcache, bcmath)
-- Composer (for PHP dependency management)
-- Node.js 18+ (for formatting and development tools)
-
-#### Setting Up Local Development
-
-1. **Install PHP dependencies**:
-   ```bash
-   composer install
-   ```
-
-2. **Install Node dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Verify your setup** by running the quality checks locally before pushing:
-   ```bash
-   # PHP code standards check
-   composer test
-
-   # Format check (JS, CSS, JSON, Markdown)
-   npm run format:check
-
-   # Auto-fix formatting issues
-   npm run format
-   ```
-
-### Code Standards & Formatting
-
-- **PHP**: [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/) enforced via PHPCS
-- **JavaScript, CSS, JSON, Markdown**: Prettier formatting
-- **EditorConfig**: Use `.editorconfig` for editor-consistent indentation and line endings
-
-### Pre-Push Checklist
-
-Before pushing your changes:
-1. Ensure `composer test` passes
-2. Ensure `npm run format:check` passes
-3. All changes follow project code standards
-4. Branch naming follows the convention (e.g., `feature/`, `fix/`, `chore/`)
-
-## Prerequisites
-
-- Docker (20.10+)
-- Docker Compose (1.29+)
-- Make (optional, but recommended)
+- **[Design System](docs/design-system.md)** - Color palette, components, accessibility
+- **[Custom Blocks](docs/blocks.md)** - Gutenberg blocks for landing pages
+- **[Logistics System](docs/logistics.md)** - Same-day delivery management
+- **[SEO & Analytics](docs/seo-analytics.md)** - RankMath, GA4, Meta Pixel
+- **[Operations Runbook](docs/ops-runbook.md)** - Common operational tasks
 
 ## Quick Start
 
-### Fastest Setup with Bootstrap (Recommended)
-
-The simplest way to get started is with a single command that handles everything:
+### One-Command Setup (Recommended)
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone <repository-url>
 cd <repository-name>
 
-# Bootstrap everything in one go
+# Bootstrap everything
 make bootstrap
 ```
 
 This will:
 1. Create `.env` from `.env.example`
-2. Install all PHP dependencies via Composer
-3. Start all Docker services (nginx, php-fpm, MariaDB, Redis)
-4. Run health checks to verify everything works
+2. Install PHP and Node dependencies
+3. Start all Docker services
+4. Run health checks
 5. Display next steps
 
-Then simply:
-1. Open http://localhost:8080 in your browser
-2. Complete the WordPress installation wizard
-3. Create your admin account
+Then open http://localhost:8080 and complete WordPress installation.
 
-**For detailed bootstrap information, see [BOOTSTRAP_GUIDE.md](BOOTSTRAP_GUIDE.md).**
-
-### Manual Step-by-Step Setup
-
-If you prefer more control, follow these steps:
-
-1. **Clone the repository**:
-    ```bash
-    git clone <repository-url>
-    cd <repository-name>
-    ```
-
-2. **Install dependencies and setup environment**:
-    ```bash
-    make install
-    ```
-
-    This will:
-    - Create `.env` from `.env.example`
-    - Install Composer dependencies
-    - Download WordPress core
-
-3. **Generate security salts** (optional but recommended):
-
-    You can either:
-    - Run the automated script: `./scripts/generate-salts.sh`
-    - Or manually visit https://roots.io/salts.html and update the security keys in your `.env` file
-
-4. **Start the services**:
-    ```bash
-    make up
-    ```
-
-5. **Verify setup with health check**:
-    ```bash
-    make healthcheck
-    ```
-
-6. **Access WordPress**:
-
-    Open your browser and navigate to http://localhost:8080
-
-    Complete the WordPress installation wizard to create your admin account.
-
-7. **WooCommerce Setup** (Optional):
-
-    For e-commerce functionality, see [QUICKSTART_WOOCOMMERCE.md](QUICKSTART_WOOCOMMERCE.md) for quick setup or [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) for full documentation.
-
-## WooCommerce E-Commerce
-
-This stack includes a complete WooCommerce setup. Features:
-
-- ✅ **Stripe Payments** (test mode with Apple Pay/Google Pay)
-- ✅ **One-Page Checkout** with reduced fields
-- ✅ **Auto-Seeded Products** (4 mattresses + 3 add-ons)
-- ✅ **Analytics Tracking** (GA4 + Meta Pixel)
-- ✅ **Sticky Mobile CTA**
-
-**Quick Start:** See [QUICKSTART_WOOCOMMERCE.md](QUICKSTART_WOOCOMMERCE.md)
-
-**Documentation:**
-- [README_WOOCOMMERCE.md](README_WOOCOMMERCE.md) - Complete e-commerce guide
-- [WOOCOMMERCE_SETUP.md](WOOCOMMERCE_SETUP.md) - Detailed setup instructions
-- [TESTING_CHECKLIST.md](TESTING_CHECKLIST.md) - Testing procedures
-
-## Core Pages Scaffolding
-
-The stack includes a deterministic pages seeding system that creates a complete site structure with placeholder content:
-
-### Features
-
-- ✅ **Four Core Pages** (Home, Checkout, Privacy, Terms)
-- ✅ **Gutenberg Block Content** - Fully customizable via block editor
-- ✅ **Navigation Menus** - Primary header menu and footer menu
-- ✅ **Idempotent** - Safe to run multiple times without duplication
-- ✅ **Theme Integration** - Uses Blocksy child theme styling
-
-### Quick Start
-
-After WordPress installation is complete:
+### Manual Setup
 
 ```bash
-# Create pages and menus
-make seed-pages
+# Create environment file
+cp .env.example .env
+
+# Install dependencies
+make install
+
+# Start services
+make up
+
+# Run health check
+make healthcheck
 ```
 
-This creates:
-- Home page as front page (/)
-- Checkout page (/checkout/)
-- Privacy policy (/privacy-policy/)
-- Terms & conditions (/terms/)
-- Primary navigation menu (header)
-- Footer navigation menu
+## Stack
 
-**For detailed documentation:** See [SEED_PAGES_GUIDE.md](SEED_PAGES_GUIDE.md)
+- **WordPress**: Bedrock-based setup with Composer dependency management
+- **WooCommerce**: E-commerce platform with Stripe payment gateway
+- **Nginx**: Web server (Alpine Linux)
+- **PHP 8.2**: PHP-FPM application server (Alpine Linux)
+- **MariaDB**: SQL database
+- **Redis**: Object cache server
 
-## Live Preview with Cloudflare Tunnel
+## Key Features
 
-Share a public HTTPS preview URL of your local WordPress site without deploying it. Perfect for demos, mobile testing, or sharing with team members.
+✅ Modern WordPress stack (Bedrock)  
+✅ Environment-based configuration  
+✅ Docker containerization (nginx, PHP-FPM, MariaDB, Redis)  
+✅ WooCommerce with Stripe & Apple Pay/Google Pay  
+✅ GA4 and Meta Pixel analytics tracking  
+✅ RankMath SEO with JSON-LD structured data  
+✅ Same-day delivery logistics system  
+✅ 6 custom Gutenberg blocks  
+✅ Responsive design (Blocksy theme)  
+✅ Automated CI/CD pipeline  
 
-### Quick Start
-
-1. **Start the preview:**
-   ```bash
-   make preview.up
-   ```
-   
-   This outputs a public URL like: `https://example-tunnel.trycloudflare.com`
-
-2. **Update WordPress URLs** (in `.env.local`):
-   ```bash
-   WP_HOME='https://example-tunnel.trycloudflare.com'
-   WP_SITEURL='${WP_HOME}/wp'
-   DISALLOW_INDEXING='true'
-   ```
-   
-   Then flush cache:
-   ```bash
-   make wp CMD='cache flush'
-   ```
-
-3. **Share the URL** - Your site is now publicly accessible!
-
-4. **Stop when done:**
-   ```bash
-   make preview.down
-   ```
-
-**Requirements:** Install [cloudflared](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/)
-
-**Full Documentation:** See [CLOUDFLARE_TUNNEL_PREVIEW.md](CLOUDFLARE_TUNNEL_PREVIEW.md) for advanced usage, named tunnels, and troubleshooting.
-
-## Makefile Commands
-
-The project includes a Makefile with several useful commands:
+## Make Commands
 
 ```bash
-make bootstrap   # Complete setup: install deps, start services, verify with health check
-make install     # Install dependencies and setup environment
-make build       # Build Docker images
-make up          # Start all services
-make down        # Stop all services
-make restart     # Restart all services
-make logs        # Show container logs
-make shell       # Open shell in PHP container
-make composer    # Run composer commands (e.g., make composer CMD='update')
-make wp          # Run WP-CLI commands (e.g., make wp CMD='plugin list')
-make healthcheck # Run WordPress stack health check
-make clean       # Clean up containers, volumes, and vendor directory
+# Setup
+make bootstrap      # Complete one-command setup
+make install        # Install dependencies
+make build          # Build Docker images
+make up             # Start all services
+make down           # Stop all services
 
-# Preview commands
-make preview.up     # Start Cloudflare Tunnel for live preview
-make preview.down   # Stop Cloudflare Tunnel
-make preview.status # Check tunnel status
+# Development
+make shell          # Open shell in PHP container
+make logs           # View container logs
+make healthcheck    # Verify setup
+make wp CMD='...'   # Run WP-CLI commands
+
+# Cleanup
+make clean          # Remove containers and volumes
 ```
 
-### Bootstrap Command
+For complete list: See [Setup Guide](docs/setup-local.md)
 
-The `make bootstrap` command is the fastest way to set up everything:
+## WooCommerce & E-Commerce
 
-```bash
-make bootstrap
-```
+This stack includes a complete WooCommerce setup:
+- ✅ Stripe Payments (test mode with Apple Pay/Google Pay)
+- ✅ One-Page Checkout with reduced fields
+- ✅ Same-Day Delivery Integration
+- ✅ Order Slot Reservations
+- ✅ Analytics Tracking (GA4 + Meta Pixel)
 
-This single command performs:
-1. Installs all PHP dependencies via Composer
-2. Starts all Docker services (nginx, php-fpm, MariaDB, Redis)
-3. Waits for services to stabilize
-4. Runs comprehensive health checks
-5. Displays completion status and next steps
-
-## Manual Setup (without Make)
-
-If you prefer not to use Make, you can run the commands manually:
-
-1. **Create environment file**:
-   ```bash
-   cp .env.example .env
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   docker compose run --rm php composer install
-   ```
-
-3. **Start services**:
-   ```bash
-   docker compose up -d
-   ```
-
-## Directory Structure
-
-```
-.
-├── config/                 # WordPress configuration files
-│   ├── application.php     # Main application config
-│   └── environments/       # Environment-specific configs
-├── docker/                 # Docker configuration files
-│   ├── nginx/             # Nginx configuration
-│   └── php/               # PHP-FPM configuration
-├── web/                    # Public web root
-│   ├── app/               # WordPress content directory
-│   │   ├── mu-plugins/    # Must-use plugins
-│   │   ├── plugins/       # Plugins
-│   │   ├── themes/        # Themes
-│   │   └── uploads/       # Media uploads
-│   ├── wp/                # WordPress core (managed by Composer)
-│   ├── index.php          # WordPress entry point
-│   └── wp-config.php      # WordPress config loader
-├── .env.example           # Example environment variables
-├── composer.json          # PHP dependencies
-├── docker-compose.yml     # Docker services configuration
-└── Makefile              # Development commands
-```
-
-## Environment Variables
-
-Key environment variables (defined in `.env`):
-
-- `DB_NAME`: Database name
-- `DB_USER`: Database user
-- `DB_PASSWORD`: Database password
-- `DB_HOST`: Database host (default: `db`)
-- `WP_ENV`: Environment (`development`, `staging`, `production`)
-- `WP_HOME`: WordPress home URL
-- `WP_SITEURL`: WordPress installation URL
-- `REDIS_HOST`: Redis host (default: `redis`)
-- `REDIS_PORT`: Redis port (default: `6379`)
-
-## Accessing Services
-
-- **WordPress**: http://localhost:8080
-- **Database**: localhost:3306
-  - User: `wordpress` (or value from `.env`)
-  - Password: `wordpress` (or value from `.env`)
-  - Database: `wordpress` (or value from `.env`)
-- **Redis**: localhost:6379
+See [Logistics System](docs/logistics.md) for delivery management and [SEO & Analytics](docs/seo-analytics.md) for tracking setup.
 
 ## Development
 
-### Installing Plugins
+### Code Quality
 
-Install WordPress plugins using Composer:
-
-```bash
-make composer CMD='require wpackagist-plugin/plugin-name'
-```
-
-### Installing Themes
-
-Install WordPress themes using Composer:
+Before pushing code:
 
 ```bash
-make composer CMD='require wpackagist-theme/theme-name'
+# PHP standards
+composer test
+
+# Format check (JS, CSS, JSON, Markdown)
+npm run format:check
+
+# Auto-fix formatting
+npm run format
 ```
 
-### Using WP-CLI
+### Local Development Tools
 
-You can use WP-CLI for various WordPress operations:
+- **PHP 8.0+** (for local linting)
+- **Composer** (for local dependency management)
+- **Node.js 18+** (for asset building)
+- **Docker & Docker Compose** (for containerization)
+
+See [Setup Guide](docs/setup-local.md) for detailed setup instructions.
+
+## Deployment
+
+### Staging (Automated)
+
+Code automatically deploys to staging when pushed to `main`:
 
 ```bash
-# Check WordPress version
-make wp CMD='core version'
+git add .
+git commit -m "feature: description"
+git push origin main
 
-# Check if WordPress is installed
-make wp CMD='core is-installed'
-
-# List plugins
-make wp CMD='plugin list'
-
-# Activate a plugin
-make wp CMD='plugin activate plugin-name'
-
-# Update WordPress
-make wp CMD='core update'
-
-# Create a new user
-make wp CMD='user create username email@example.com --role=administrator'
+# View deployment: GitHub → Actions → Deploy Staging
 ```
 
-### Health Checks
+### Production (Manual)
 
-To verify that your WordPress stack is running correctly, use the health check script:
+Manual deployment to production via SSH/rsync:
 
 ```bash
-# Run health check
-make healthcheck
+# See Deployment Guide for complete setup
+export PROD_HOST="production.example.com"
+export PROD_PATH="/var/www/app"
+export PROD_SSH_KEY="$(cat ~/.ssh/prod_deploy_key)"
 
-# Or with verbose output for detailed diagnostics
-./scripts/healthcheck.sh --verbose
+bash scripts/deploy-staging.sh  # Reusable for all environments
 ```
 
-The health check verifies:
-- ✓ All Docker containers are running
-- ✓ WordPress core files are installed  
-- ✓ Configuration files exist
-- ✓ Database connectivity works
-- ✓ WordPress is installed and accessible
-- ✓ HTTP endpoint is reachable
-- ✓ Redis cache is available
+For complete deployment guide: See [Deployment Guide](docs/deployment.md)
 
-### Debugging
+## Project Structure
 
-Development mode is enabled by default when `WP_ENV=development`. This enables:
+```
+.
+├── config/              # WordPress configuration
+├── docker/              # Docker configuration
+├── web/                 # Public web root
+│   ├── app/            # WordPress content directory
+│   │   ├── plugins/    # Plugins (including nycbedtoday-logistics)
+│   │   ├── themes/     # Themes (blocksy-child child theme)
+│   │   └── uploads/    # Media files
+│   └── wp/             # WordPress core (via Composer)
+├── scripts/            # Development and deployment scripts
+├── docs/               # Complete documentation
+├── composer.json       # PHP dependencies
+├── package.json        # Node.js dependencies
+├── docker-compose.yml  # Docker services
+├── Makefile           # Development commands
+└── README.md          # This file
+```
 
-- Error display
-- Query logging
-- Debug logging to `web/app/debug.log`
-- Script debugging
+See [Architecture Guide](docs/architecture.md) for detailed structure.
 
-Check logs:
+## Environment Variables
+
+Key variables (in `.env`):
 
 ```bash
-make logs
+# Database
+DB_NAME=wordpress
+DB_USER=wordpress
+DB_PASSWORD=wordpress
+DB_HOST=db
+
+# WordPress
+WP_ENV=development
+WP_HOME=http://localhost:8080
+WP_SITEURL=${WP_HOME}/wp
+
+# Cache
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+# Optional: Analytics & Payments
+GA4_MEASUREMENT_ID=G-XXXXXXXXXX
+META_PIXEL_ID=xxxxxxxxxx
+STRIPE_PUBLISHABLE_KEY=pk_test_xxxxx
+STRIPE_SECRET_KEY=sk_test_xxxxx
 ```
 
-## Production Deployment
-
-Before deploying to production:
-
-1. Set `WP_ENV=production` in your `.env` file
-2. Generate unique security salts at https://roots.io/salts.html
-3. Use strong, unique passwords for database credentials
-4. Disable file modifications (`DISALLOW_FILE_MODS=true` - already set by default)
-5. Enable HTTPS and update `WP_HOME` and `WP_SITEURL` accordingly
-6. Configure proper backups for database and uploads directory
+See [Architecture Guide](docs/architecture.md) for complete list.
 
 ## Troubleshooting
 
-### Permission Issues
+### Common Issues
 
-If you encounter permission issues with uploads or cache:
+**Docker services won't start**
+- Check port 8080 isn't in use
+- See [Setup Guide](docs/setup-local.md) → Troubleshooting
 
-```bash
-docker compose exec php sh
-chmod -R 755 web/app/uploads
-```
+**WordPress installation stuck**
+- Check database connection
+- Clear browser cache
+- See [Setup Guide](docs/setup-local.md) → Troubleshooting
 
-### Database Connection Issues
+**Build errors**
+- Clear vendor directory: `rm -rf vendor/`
+- Reinstall: `make install`
+- Check PHP version: `php -v`
 
-Ensure the database service is running:
+**Health check fails**
+- View logs: `make logs`
+- Restart services: `make restart`
+- Check container status: `docker compose ps`
 
-```bash
-docker compose ps
-docker compose logs db
-```
+For more troubleshooting: See relevant documentation guide (Setup, Deployment, or Operations).
 
-### Clear Cache
+## Support & Resources
 
-To clear Redis cache:
-
-```bash
-docker compose exec redis redis-cli FLUSHALL
-```
-
-## Security
-
-- File editing and modifications are disabled in production by default
-- WordPress debug mode is disabled in production
-- Sensitive files are protected via nginx configuration
-- Environment variables are used for sensitive data
-- Security headers are configured in nginx
-
-## License
-
-[Your License Here]
+- **[Complete Documentation](docs/README.md)** - Full documentation index
+- **[Setup Guide](docs/setup-local.md)** - Local development setup
+- **[Deployment Guide](docs/deployment.md)** - Staging and production deployment
+- **[Operations Runbook](docs/ops-runbook.md)** - Common tasks and troubleshooting
+- **[WordPress Docs](https://wordpress.org/support/)** - Official WordPress documentation
+- **[Bedrock Docs](https://roots.io/bedrock/docs/)** - Bedrock documentation
+- **[Docker Docs](https://docs.docker.com/)** - Docker documentation
 
 ## Contributing
 
-[Your Contributing Guidelines Here]
+This project follows a linear PR workflow with automated code quality checks. See contribution guidelines in the repository.
+
+**Pre-push checklist**:
+1. Run `composer test` - PHP standards check
+2. Run `npm run format:check` - Formatting check
+3. All changes follow project code standards
+4. Branch naming follows convention (e.g., `feature/`, `fix/`, `chore/`)
+
+## License
+
+[License details to be added]
+
+---
+
+**Need help?** Check the [documentation index](docs/README.md) or relevant guide for your task.
