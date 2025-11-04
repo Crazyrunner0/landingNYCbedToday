@@ -149,10 +149,11 @@ function create_home_page_with_blocks() {
         'post_parent'  => 0,
     ]);
 
-    // Set as front page
+    // Set as front page and use landing page template
     if ($page_id && !is_wp_error($page_id)) {
         update_option('show_on_front', 'page');
         update_option('page_on_front', $page_id);
+        update_post_meta($page_id, '_wp_page_template', 'templates/landing-page.php');
     }
 }
 
