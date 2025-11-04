@@ -21,9 +21,17 @@
   },
   "devDependencies": {
     "@wordpress/icons": "^9.0.0",
-    "@wordpress/scripts": "^29.0.0",
+    "@wordpress/scripts": "^30.0.0",
     "prettier": "^3.0.0",
     "webpack": "^5.102.1",
     "webpack-cli": "^6.0.1"
+  },
+  "overrides": {
+    "rimraf": "^4.0.0",
+    "glob": "^9.0.0",
+    "@humanwhocodes/config-array": "^0.13.0",
+    "@humanwhocodes/object-schema": "^2.0.3",
+    "@eslint/config-array": "^0.21.1",
+    "@eslint/object-schema": "^2.1.7"
   }
 }
