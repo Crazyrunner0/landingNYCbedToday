@@ -24,24 +24,30 @@ Complete documentation for the WordPress development stack and deployment pipeli
 - **[Logistics System](logistics.md)** - Same-day delivery, ZIP validation, time slots, WooCommerce integration
 - **[SEO & Analytics](seo-analytics.md)** - RankMath setup, JSON-LD schemas, GA4, Meta Pixel tracking
 
-### Operations
+### Operations & Deployment
 
 - **[Deployment Guide](deployment.md)** - Staging deployment (automated), production deployment, CI/CD workflow
+- **[Production Launch Guide](production-launch.md)** - Complete production go-live checklist (DNS, SSL, Stripe, monitoring)
+- **[Production Rollout Checklist](production-rollout-checklist.md)** - Step-by-step launch day procedures and validation
+- **[Backup & Recovery Guide](backup-recovery.md)** - Database/uploads backups, automated scripts, restore procedures
 - **[Operations Runbook](ops-runbook.md)** - Daily operations, maintenance tasks, monitoring, troubleshooting
 
 ## Directory Structure
 
 ```
 docs/
-├── README.md                  # This file (index/TOC)
-├── architecture.md            # Bedrock structure, paths, environments
-├── setup-local.md            # Docker/Make targets, .env configuration
-├── deployment.md             # Staging/prod, GitHub Actions, rsync/ssh
-├── design-system.md          # Theme tokens, components, accessibility
-├── blocks.md                 # Custom Gutenberg blocks usage
-├── logistics.md              # ZIP/slots/cut-off admin and UX
-├── seo-analytics.md          # RankMath, JSON-LD, GA4/Pixel
-└── ops-runbook.md            # Backups, cache flush, common commands
+├── README.md                      # This file (index/TOC)
+├── architecture.md                # Bedrock structure, paths, environments
+├── setup-local.md                # Docker/Make targets, .env configuration
+├── deployment.md                 # Staging/prod, GitHub Actions, rsync/ssh
+├── production-launch.md          # Complete production go-live guide
+├── production-rollout-checklist.md # Launch day procedures and validation
+├── backup-recovery.md            # Database/uploads backups and restore procedures
+├── design-system.md              # Theme tokens, components, accessibility
+├── blocks.md                     # Custom Gutenberg blocks usage
+├── logistics.md                  # ZIP/slots/cut-off admin and UX
+├── seo-analytics.md              # RankMath, JSON-LD, GA4/Pixel
+└── ops-runbook.md                # Cache, common commands, troubleshooting
 ```
 
 ## Common Tasks
@@ -73,7 +79,13 @@ docs/
 → [Operations Runbook](ops-runbook.md)
 
 **Deploy to production**
-→ [Deployment Guide](deployment.md)
+→ [Production Launch Guide](production-launch.md)
+
+**Execute production launch day**
+→ [Production Rollout Checklist](production-rollout-checklist.md)
+
+**Backup or recover the database/uploads**
+→ [Backup & Recovery Guide](backup-recovery.md)
 
 ## Core Concepts
 
