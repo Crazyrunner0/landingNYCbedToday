@@ -1,50 +1,100 @@
 .wp-block-blocksy-child-social-proof-strip {
   width: 100%;
-  background-color: #f8fafc;
-  padding: 2rem 0;
+  background-color: #f3f4f6;
+  padding: 2.5rem 1rem;
   margin: 2rem 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .social-proof-strip {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 .social-proof-items {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
-  justify-content: center;
+  justify-items: center;
   align-items: center;
 }
 
 .social-proof-item {
-  flex: 1;
-  min-width: 200px;
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-proof-metric {
+  display: block;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
 }
 
 .social-proof-text {
   display: block;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
-  color: #1e293b;
+  color: #64748b;
   line-height: 1.5;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .social-proof-strip {
+    padding: 0 1rem;
+  }
+
   .social-proof-items {
-    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .wp-block-blocksy-child-social-proof-strip {
+    padding: 1.5rem 1rem;
+  }
+
+  .social-proof-items {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .social-proof-metric {
+    font-size: 1.5rem;
+  }
+
+  .social-proof-text {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .wp-block-blocksy-child-social-proof-strip {
+    padding: 1rem 0.75rem;
+  }
+
+  .social-proof-items {
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
 
-  .social-proof-item {
-    min-width: 100%;
+  .social-proof-metric {
+    font-size: 1.25rem;
   }
 
-  .social-proof-strip {
-    padding: 0 1rem;
+  .social-proof-text {
+    font-size: 0.75rem;
+  }
+
+  .social-proof-item {
+    padding: 0.5rem 0.25rem;
   }
 }

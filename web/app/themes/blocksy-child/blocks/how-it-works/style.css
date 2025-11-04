@@ -1,7 +1,7 @@
 .wp-block-blocksy-child-how-it-works {
   width: 100%;
   margin: 3rem 0;
-  padding: 2rem;
+  padding: 2.5rem 1rem;
   background-color: #ffffff;
 }
 
@@ -11,16 +11,17 @@
 }
 
 .how-it-works-title {
-  font-size: 2.5rem;
+  font-size: clamp(1.875rem, 4vw, 2.5rem);
   font-weight: 700;
   text-align: center;
-  margin: 0 0 3rem 0;
-  color: #0f172a;
+  margin: 0 0 2.5rem 0;
+  color: #1e293b;
+  letter-spacing: -0.01em;
 }
 
 .how-it-works-steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
   position: relative;
@@ -29,27 +30,32 @@
 .how-it-works-step {
   position: relative;
   text-align: center;
-  padding: 1.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .step-number {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
   color: #ffffff;
-  font-size: 1.75rem;
+  font-size: 1.875rem;
   font-weight: 700;
   border-radius: 50%;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  flex-shrink: 0;
 }
 
 .step-title {
   font-size: 1.125rem;
   font-weight: 700;
-  margin: 1rem 0 0.75rem 0;
+  margin: 0 0 0.75rem 0;
   color: #1e293b;
 }
 
@@ -60,18 +66,92 @@
   margin: 0;
 }
 
+/* Horizontal connector lines (desktop only) */
+.how-it-works-steps::before {
+  content: "";
+  position: absolute;
+  top: 35px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #e5e7eb 50%, transparent 100%);
+  z-index: -1;
+}
+
+@media (max-width: 1024px) {
+  .wp-block-blocksy-child-how-it-works {
+    padding: 2rem 1rem;
+  }
+
+  .step-number {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .wp-block-blocksy-child-how-it-works {
+    padding: 1.5rem 1rem;
+  }
+
   .how-it-works-title {
-    font-size: 1.875rem;
+    font-size: clamp(1.5rem, 3.5vw, 1.875rem);
+    margin-bottom: 2rem;
   }
 
   .how-it-works-steps {
-    gap: 1rem;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .how-it-works-steps::before {
+    display: none;
+  }
+
+  .step-number {
+    width: 55px;
+    height: 55px;
+    font-size: 1.375rem;
+  }
+
+  .step-title {
+    font-size: 1rem;
+  }
+
+  .step-description {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .wp-block-blocksy-child-how-it-works {
+    padding: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .how-it-works-title {
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+  }
+
+  .how-it-works-steps {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .step-number {
     width: 50px;
     height: 50px;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .step-title {
+    font-size: 0.95rem;
+  }
+
+  .step-description {
+    font-size: 0.8rem;
   }
 }

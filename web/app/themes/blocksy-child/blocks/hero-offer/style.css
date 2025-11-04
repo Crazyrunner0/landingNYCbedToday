@@ -1,61 +1,124 @@
 .wp-block-blocksy-child-hero-offer {
   width: 100%;
   margin: 0;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  background-attachment: fixed;
 }
 
 .hero-offer-content {
   max-width: 800px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .hero-offer-headline {
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 5vw, 3.75rem);
   font-weight: 700;
   line-height: 1.2;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem 0;
+  color: #ffffff;
+  letter-spacing: -0.02em;
 }
 
 .hero-offer-subheadline {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.875rem);
   font-weight: 600;
   margin: 0 0 1.5rem 0;
-  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.95);
+  opacity: 0.95;
 }
 
 .hero-offer-description {
   font-size: 1.125rem;
-  margin: 0 0 2rem 0;
-  opacity: 0.85;
-  line-height: 1.6;
+  margin: 0 0 2.5rem 0;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.75;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-offer-button {
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  background-color: currentColor;
-  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  background-color: #f59e0b;
+  color: #0f172a;
   text-decoration: none;
   border-radius: 0.5rem;
   font-weight: 600;
-  transition: all 0.3s ease;
-  border: 2px solid currentColor;
+  font-size: 1rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #f59e0b;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .hero-offer-button:hover {
-  opacity: 0.9;
+  background-color: #d97706;
+  border-color: #d97706;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
+.hero-offer-button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.hero-offer-button:active {
+  transform: translateY(0);
+  opacity: 0.9;
+}
+
+@media (max-width: 1024px) {
+  .wp-block-blocksy-child-hero-offer {
+    padding: 4rem 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .wp-block-blocksy-child-hero-offer {
+    padding: 3rem 1rem;
+  }
+
   .hero-offer-headline {
-    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
   }
 
   .hero-offer-subheadline {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
+    margin-bottom: 1.25rem;
   }
 
   .hero-offer-description {
     font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-offer-button {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .wp-block-blocksy-child-hero-offer {
+    padding: 2rem 1rem;
+  }
+
+  .hero-offer-headline {
+    font-size: clamp(1.25rem, 5vw, 2rem);
+  }
+
+  .hero-offer-subheadline {
+    font-size: 1rem;
+  }
+
+  .hero-offer-description {
+    font-size: 0.95rem;
   }
 }

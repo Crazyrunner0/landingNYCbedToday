@@ -24,11 +24,19 @@ function blocksy_child_enqueue_styles() {
         wp_get_theme()->parent()->get('Version')
     );
 
+    // Enqueue design system styles
+    wp_enqueue_style(
+        'blocksy-child-design-system',
+        BLOCKSY_CHILD_URI . '/assets/css/design-system.css',
+        [],
+        BLOCKSY_CHILD_VERSION
+    );
+
     // Enqueue child theme styles
     wp_enqueue_style(
         'blocksy-child-style',
         get_stylesheet_uri(),
-        ['blocksy-parent-style'],
+        ['blocksy-parent-style', 'blocksy-child-design-system'],
         BLOCKSY_CHILD_VERSION
     );
 }

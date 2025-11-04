@@ -1,8 +1,10 @@
 .wp-block-blocksy-child-local-neighborhoods {
   width: 100%;
   margin: 3rem 0;
-  padding: 2rem;
-  background-color: #f8fafc;
+  padding: 2.5rem 1rem;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .local-neighborhoods {
@@ -11,11 +13,12 @@
 }
 
 .local-neighborhoods-title {
-  font-size: 2.5rem;
+  font-size: clamp(1.875rem, 4vw, 2.5rem);
   font-weight: 700;
   text-align: center;
-  margin: 0 0 1rem 0;
-  color: #0f172a;
+  margin: 0 0 0.75rem 0;
+  color: #1e293b;
+  letter-spacing: -0.01em;
 }
 
 .local-neighborhoods-description {
@@ -23,28 +26,48 @@
   text-align: center;
   color: #64748b;
   margin: 0 0 2rem 0;
-  line-height: 1.6;
+  line-height: 1.75;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .neighborhoods-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.75rem;
   margin-top: 2rem;
 }
 
 .neighborhood-item {
-  padding: 1.5rem;
+  padding: 1.75rem;
   background-color: #ffffff;
-  border-radius: 0.5rem;
-  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .neighborhood-item:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  border-color: #2563eb;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.1);
+  transform: translateY(-4px);
+}
+
+.neighborhood-item:focus-within {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.neighborhood-icon {
+  display: block;
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 0.75rem;
 }
 
 .neighborhood-name {
@@ -58,19 +81,84 @@
   font-size: 0.95rem;
   color: #64748b;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .wp-block-blocksy-child-local-neighborhoods {
+    padding: 2rem 1rem;
+  }
+
+  .neighborhoods-grid {
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .wp-block-blocksy-child-local-neighborhoods {
+    padding: 1.5rem 1rem;
+  }
+
   .local-neighborhoods-title {
-    font-size: 1.875rem;
+    font-size: clamp(1.5rem, 3.5vw, 1.875rem);
+    margin-bottom: 0.5rem;
   }
 
   .local-neighborhoods-description {
     font-size: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .neighborhoods-grid {
     gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .neighborhood-item {
+    padding: 1.25rem;
+  }
+
+  .neighborhood-name {
+    font-size: 1.125rem;
+  }
+
+  .neighborhood-description {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .wp-block-blocksy-child-local-neighborhoods {
+    padding: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .local-neighborhoods-title {
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+  }
+
+  .local-neighborhoods-description {
+    font-size: 0.95rem;
+  }
+
+  .neighborhoods-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .neighborhood-icon {
+    font-size: 2rem;
+  }
+
+  .neighborhood-item {
+    padding: 1rem;
+  }
+
+  .neighborhood-name {
+    font-size: 1rem;
+  }
+
+  .neighborhood-description {
+    font-size: 0.8rem;
   }
 }
