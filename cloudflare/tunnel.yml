@@ -1,0 +1,7 @@
+tunnel: wordpress-preview
+credentials-file: /home/cloudflared/.cloudflare/wordpress-preview.json
+
+ingress:
+  - hostname: localhost.internal
+    service: http://nginx:80
+  - service: http_status:404
