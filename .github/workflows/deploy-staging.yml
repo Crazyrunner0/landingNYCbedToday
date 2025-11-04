@@ -1,0 +1,202 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  DRY_RUN: false
+
+jobs:
+  # Run CI checks first (reuse the existing CI workflow jobs)
+  validate:
+    name: Validate Composer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, json, opcache, bcmath
+          coverage: none
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Check for security vulnerabilities
+        run: composer audit
+
+      - name: Run Composer tests
+        run: composer test
+
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql
+          coverage: none
+          tools: phpcs
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHP_CodeSniffer
+        run: composer test
+
+  format-check:
+    name: Format & Linting
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Cache NPM packages
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run format checks
+        run: npm run format:check
+
+  deploy:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [validate, code-quality, format-check]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Cache NPM packages
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.STAGING_SSH_KEY }}" > ~/.ssh/staging_key
+          chmod 600 ~/.ssh/staging_key
+          ssh-keyscan -H ${{ secrets.STAGING_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+
+      - name: Deploy to staging (Dry Run)
+        if: env.DRY_RUN == 'true' || secrets.STAGING_HOST == ''
+        run: |
+          echo "Running in DRY RUN mode or staging credentials not configured"
+          export STAGING_HOST="${{ secrets.STAGING_HOST }}"
+          export STAGING_PATH="${{ secrets.STAGING_PATH }}"
+          export STAGING_SSH_KEY="${{ secrets.STAGING_SSH_KEY }}"
+          export DRY_RUN=true
+          bash scripts/deploy-staging.sh || true
+
+      - name: Deploy to staging
+        if: env.DRY_RUN != 'true' && secrets.STAGING_HOST != ''
+        run: |
+          export STAGING_HOST="${{ secrets.STAGING_HOST }}"
+          export STAGING_PATH="${{ secrets.STAGING_PATH }}"
+          export STAGING_SSH_KEY="${{ secrets.STAGING_SSH_KEY }}"
+          bash scripts/deploy-staging.sh
+
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f ~/.ssh/staging_key
+          rm -rf node_modules/ build/ dist/
+          rm -rf vendor/
