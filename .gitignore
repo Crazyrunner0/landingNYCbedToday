@@ -26,6 +26,19 @@ build/
 dist/
 web/app/themes/blocksy-child/build/
 
+# Generated image formats (media optimization)
+*.webp
+*.avif
+
+# Performance reports
+*lighthouse-report*.html
+*performance-report*.json
+*performance-audit*.txt
+
+# Cache files
+web/app/cache/
+storage/cache/
+
 # Composer
 vendor/
 
