@@ -55,11 +55,14 @@ Example blackout dates:
 
 Navigate to the **ZIP Codes** tab to:
 
-- View all whitelisted ZIP codes
-- Add new ZIP codes
-- Remove ZIP codes from the whitelist
+- **View all whitelisted ZIP codes**: See the complete list in a sortable grid
+- **Add new ZIP codes**: Enter individual ZIP codes to add them to the whitelist
+- **Remove ZIP codes**: Click the remove button on any ZIP to delete it
+- **Bulk Import**: Paste multiple ZIP codes (one per line or comma-separated) and optionally clear existing codes first
+- **Export**: Download your current ZIP whitelist as JSON or CSV format
+- **Reseed**: Restore the default NYC ZIP codes (100+ codes covering Manhattan, Brooklyn, Queens, Bronx, and Staten Island)
 
-The plugin seeds 100+ default NYC ZIP codes covering Manhattan, Brooklyn, Queens, Bronx, and Staten Island.
+The plugin includes 100+ default NYC ZIP codes that can be restored at any time with a single click.
 
 ### Delivery Slots Management
 
@@ -141,9 +144,52 @@ The plugin automatically integrates with WooCommerce checkout:
 
 ## WP-CLI Commands
 
-Manage delivery slots directly from the command line:
+### ZIP Code Management
 
-### Generate Slots
+#### Reseed Default ZIP Codes
+
+Reset the ZIP whitelist to default NYC ZIP codes:
+
+```bash
+wp nycbt zip reseed
+```
+
+This command will replace your current ZIP codes with the default list of 100+ NYC ZIP codes.
+
+#### List ZIP Codes
+
+Display all whitelisted ZIP codes:
+
+```bash
+wp nycbt zip list
+wp nycbt zip list --format=json
+wp nycbt zip list --format=csv
+```
+
+Output formats:
+- `list` (default): One ZIP per line
+- `json`: JSON formatted array
+- `csv`: Comma-separated values
+
+#### Import ZIP Codes
+
+Import ZIP codes from a file:
+
+```bash
+wp nycbt zip import /path/to/zips.json
+wp nycbt zip import /path/to/zips.csv --clear
+```
+
+Options:
+- `--clear`: Clear existing ZIP codes before importing
+
+Supported formats:
+- JSON: `{"zips": ["10001", "10002", ...]}`
+- CSV: One ZIP per line or comma-separated
+
+### Delivery Slot Management
+
+#### Generate Slots
 
 ```bash
 wp nycbt logistics generate-slots
@@ -151,21 +197,21 @@ wp nycbt logistics generate-slots --start-date=2024-12-15 --end-date=2024-12-31
 wp nycbt logistics generate-slots --force
 ```
 
-### List Slots
+#### List Slots
 
 ```bash
 wp nycbt logistics list-slots
 wp nycbt logistics list-slots --date=2024-12-20 --status=active
 ```
 
-### Update Slot
+#### Update Slot
 
 ```bash
 wp nycbt logistics update-slot 5 --capacity=15
 wp nycbt logistics update-slot 8 --status=inactive
 ```
 
-### Delete Slots for Date
+#### Delete Slots for Date
 
 ```bash
 wp nycbt logistics delete-slots 2024-12-25

@@ -2,6 +2,95 @@
   margin-top: 20px;
 }
 
+.nycbt-zip-manager-controls {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.nycbt-zip-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.nycbt-zip-single-add {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nycbt-zip-single-add input {
+  padding: 8px 12px;
+  width: 150px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.nycbt-zip-single-add button {
+  padding: 8px 16px;
+}
+
+.nycbt-zip-bulk-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nycbt-zip-bulk-actions button {
+  padding: 8px 16px;
+  background: #0073aa;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.nycbt-zip-bulk-actions button:hover {
+  background: #005a87;
+}
+
+.nycbt-zip-import-form {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.nycbt-zip-import-form h3 {
+  margin-top: 0;
+}
+
+.nycbt-zip-import-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: monospace;
+  margin-bottom: 10px;
+}
+
+.nycbt-zip-import-form label {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.nycbt-import-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nycbt-import-buttons button {
+  padding: 8px 16px;
+}
+
 .nycbt-zip-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -16,6 +105,7 @@
   padding: 8px 12px;
   background: #f0f0f1;
   border-radius: 4px;
+  font-size: 14px;
 }
 
 .nycbt-zip-item button {
@@ -27,26 +117,11 @@
   border-radius: 3px;
   cursor: pointer;
   font-size: 12px;
+  transition: background 0.2s;
 }
 
 .nycbt-zip-item button:hover {
   background: #a00;
-}
-
-.nycbt-zip-add-form {
-  margin: 20px 0;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.nycbt-zip-add-form input {
-  padding: 8px 12px;
-  width: 150px;
-}
-
-.nycbt-zip-add-form button {
-  padding: 8px 16px;
 }
 
 .nycbt-reservations table {
