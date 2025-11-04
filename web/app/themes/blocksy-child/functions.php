@@ -32,11 +32,19 @@ function blocksy_child_enqueue_styles() {
         BLOCKSY_CHILD_VERSION
     );
 
+    // Enqueue landing page styles
+    wp_enqueue_style(
+        'blocksy-child-landing-page',
+        BLOCKSY_CHILD_URI . '/assets/css/landing-page.css',
+        ['blocksy-child-design-system'],
+        BLOCKSY_CHILD_VERSION
+    );
+
     // Enqueue child theme styles
     wp_enqueue_style(
         'blocksy-child-style',
         get_stylesheet_uri(),
-        ['blocksy-parent-style', 'blocksy-child-design-system'],
+        ['blocksy-parent-style', 'blocksy-child-design-system', 'blocksy-child-landing-page'],
         BLOCKSY_CHILD_VERSION
     );
 }
@@ -233,3 +241,19 @@ function blocksy_child_enqueue_performance_script() {
     );
 }
 add_action('wp_enqueue_scripts', 'blocksy_child_enqueue_performance_script', 11);
+
+/**
+ * Enqueue landing page scripts
+ */
+function blocksy_child_enqueue_landing_page_scripts() {
+    if (is_page_template('templates/landing-page.php') || is_front_page()) {
+        wp_enqueue_script(
+            'blocksy-child-landing-page',
+            BLOCKSY_CHILD_URI . '/assets/js/landing-page.js',
+            [],
+            BLOCKSY_CHILD_VERSION,
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'blocksy_child_enqueue_landing_page_scripts', 12);
