@@ -46,6 +46,12 @@ if (file_exists($root_dir . '/.env')) {
 define('WP_ENV', env('WP_ENV') ?: 'production');
 
 /**
+ * Set up brand constant for multibrand support
+ * Default: nook-dresser-today
+ */
+define('WP_BRAND', env('WP_BRAND') ?: 'nook-dresser-today');
+
+/**
  * URLs
  */
 Config::define('WP_HOME', env('WP_HOME'));
@@ -125,6 +131,12 @@ if (file_exists($env_config)) {
 }
 
 Config::apply();
+
+/**
+ * Load brand configuration
+ * Makes brand settings available via Brand_Config class
+ */
+require_once __DIR__ . '/brands.php';
 
 /**
  * Bootstrap WordPress
